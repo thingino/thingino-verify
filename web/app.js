@@ -35,6 +35,12 @@ function fmtSize(n) {
 }
 
 dropzone.addEventListener("click", () => fileInput.click());
+dropzone.addEventListener("keydown", (e) => {
+	if (e.key === "Enter" || e.key === " ") {
+		e.preventDefault();
+		fileInput.click();
+	}
+});
 fileInput.addEventListener("change", () => {
 	if (fileInput.files.length) setFile(fileInput.files[0]);
 });
@@ -80,6 +86,12 @@ async function updateKeyFp() {
 		return;
 	}
 	pubkeyEl.classList.remove("is-invalid");
+	if (!crypto.subtle) {
+		// Plain-HTTP context: SubtleCrypto is unavailable. The chip is a
+		// convenience only; verification hashes inside the WASM engine.
+		chip.classList.add("d-none");
+		return;
+	}
 	const bytes = Uint8Array.from(k.match(/../g), (b) => parseInt(b, 16));
 	const digest = new Uint8Array(await crypto.subtle.digest("SHA-512", bytes));
 	chip.querySelector("b").textContent = [...digest.slice(0, 8)]
@@ -124,7 +136,7 @@ function classify(l) {
 	const s = l.s;
 	if (l.t === "err") return "error";
 	if (/RESULT: TAMPERED|FAIL/.test(s)) return "error";
-	if (/RESULT: (VERIFIED|CONSISTENT)|: OK$|hash ok/.test(s)) return "ok";
+	if (/RESULT: (VERIFIED|CONSISTENT)| OK$|hash ok/.test(s)) return "ok";
 	if (/^note:|no raptor signature/.test(s)) return "warn";
 	return "info";
 }
@@ -187,15 +199,20 @@ function render(code, lines) {
 /* ---------- samples ---------- */
 
 async function loadSample(path, name) {
-	const [file, pub] = await Promise.all([
-		fetch(path).then((r) => r.arrayBuffer()),
-		fetch("samples/fixture.pub").then((r) => r.text()),
-	]);
-	pubkeyEl.value = pub.trim();
-	localStorage.setItem("verify.pubkey", pubkeyEl.value);
-	updateKeyFp();
-	setFile({ name, buffer: file, size: file.byteLength });
-	verify();
+	if (running) return;
+	try {
+		const [file, pub] = await Promise.all([
+			fetch(path).then((r) => r.arrayBuffer()),
+			fetch("samples/fixture.pub").then((r) => r.text()),
+		]);
+		pubkeyEl.value = pub.trim();
+		localStorage.setItem("verify.pubkey", pubkeyEl.value);
+		updateKeyFp();
+		setFile({ name, buffer: file, size: file.byteLength });
+		verify();
+	} catch (e) {
+		showVerdict("warning", "Could not load the sample", esc(String(e)));
+	}
 }
 
 $("btn-sample-good").addEventListener("click", () => loadSample("samples/signed.mp4", "sample-signed.mp4"));
