@@ -201,12 +201,126 @@ async function loadSample(path, name) {
 $("btn-sample-good").addEventListener("click", () => loadSample("samples/signed.mp4", "sample-signed.mp4"));
 $("btn-sample-bad").addEventListener("click", () => loadSample("samples/tampered.mp4", "sample-tampered.mp4"));
 
+/* ---------- key file ---------- */
+
+const keyFileInput = $("key-file-input");
+$("btn-keyfile").addEventListener("click", () => keyFileInput.click());
+keyFileInput.addEventListener("change", async () => {
+	if (!keyFileInput.files.length) return;
+	const f = keyFileInput.files[0];
+	keyFileInput.value = "";
+	let hex = null;
+	if (f.size <= 4096) {
+		const text = await f.text();
+		const m = text.match(/[0-9a-fA-F]{64}/); // hex form, whatever surrounds it
+		if (m) hex = m[0].toLowerCase();
+	}
+	if (!hex && f.size === 32) {
+		// raw 32-byte public key
+		const bytes = new Uint8Array(await f.arrayBuffer());
+		hex = [...bytes].map((b) => b.toString(16).padStart(2, "0")).join("");
+	}
+	if (!hex) {
+		showVerdict("warning", "Could not read a key from that file",
+			"Expected 64 hex characters or a raw 32-byte Ed25519 public key.");
+		return;
+	}
+	pubkeyEl.value = hex;
+	localStorage.setItem("verify.pubkey", hex);
+	updateKeyFp();
+	clearVerdict();
+});
+
+/* ---------- help balloons (matches webflash / image builder) ---------- */
+
+const HELP = {
+	help_help: "Toggle help mode: hover any control to see what it does.",
+	help_local: "The file is read and verified entirely in your browser. Nothing is uploaded anywhere.",
+	help_engine: "The raptor commit the verification engine (rverify, compiled to WebAssembly) was built from.",
+	help_drop: "Drop a raptor-signed .mp4 recording or .jpg snapshot here, or click to pick one. The file stays on your machine.",
+	help_key: "The camera's Ed25519 public key, 64 hex characters. With it the report proves WHO signed the file; without it only that the file is internally consistent.",
+	help_keyfile: "Load the public key from a file instead of pasting it: a text file containing the hex key, or a raw 32-byte key file.",
+	help_verify: "Run rverify on the selected file. Exit verdicts: verified / consistent (no key) / tampered / unsigned.",
+	help_sample_good: "A bundled test clip signed with the public TEST key. Shows what a clean verification looks like.",
+	help_sample_bad: "The same test clip with one byte of video flipped. Shows how the hash chain pinpoints tampering.",
+	help_report: "The verbatim rverify output: one line per signature box with its span size and verdict, plus embedded timecodes.",
+};
+
+let helpMode = localStorage.getItem("verify.help") === "1";
+let _helpBalloon = null;
+let _helpHover = null;
+
+function hideHelpBalloon() {
+	_helpHover = null;
+	if (_helpBalloon) _helpBalloon.classList.remove("show");
+}
+
+function showHelpBalloon(el) {
+	if (!_helpBalloon) {
+		_helpBalloon = document.createElement("div");
+		_helpBalloon.className = "help-balloon";
+		document.body.appendChild(_helpBalloon);
+	}
+	const key = el.getAttribute("data-help");
+	_helpBalloon.textContent = HELP[key] || key;
+	_helpBalloon.classList.add("show");
+	const r = el.getBoundingClientRect();
+	const bw = _helpBalloon.offsetWidth, bh = _helpBalloon.offsetHeight;
+	const left = Math.min(Math.max(8, r.left), window.innerWidth - bw - 8);
+	let top = r.bottom + 9, above = false;
+	if (top + bh > window.innerHeight - 8) { top = r.top - bh - 9; above = true; }
+	if (top < 8) top = 8;
+	_helpBalloon.classList.toggle("above", above);
+	_helpBalloon.style.left = left + "px";
+	_helpBalloon.style.top = top + "px";
+}
+
+function applyHelpMode() {
+	document.body.classList.toggle("help-on", helpMode);
+	$("btn-help").classList.toggle("help-active", helpMode);
+	// Suppress native title tooltips while help mode is on so they don't
+	// double up with the balloons; restore them when it's off.
+	for (const el of document.querySelectorAll("[data-help]")) {
+		if (helpMode && el.hasAttribute("title")) {
+			el.setAttribute("data-saved-title", el.getAttribute("title"));
+			el.removeAttribute("title");
+		} else if (!helpMode && el.hasAttribute("data-saved-title")) {
+			el.setAttribute("title", el.getAttribute("data-saved-title"));
+			el.removeAttribute("data-saved-title");
+		}
+	}
+	if (!helpMode) hideHelpBalloon();
+}
+
+$("btn-help").addEventListener("click", () => {
+	helpMode = !helpMode;
+	localStorage.setItem("verify.help", helpMode ? "1" : "0");
+	applyHelpMode();
+});
+applyHelpMode();
+
+/* Track the topmost helpable element under the cursor; elementFromPoint
+ * respects z-order and resolves disabled buttons. */
+document.addEventListener("mousemove", (e) => {
+	if (!helpMode) return;
+	const top = document.elementFromPoint(e.clientX, e.clientY);
+	const el = top && top.closest ? top.closest("[data-help]") : null;
+	if (el) {
+		if (el !== _helpHover) {
+			_helpHover = el;
+			showHelpBalloon(el);
+		}
+	} else if (_helpHover) {
+		hideHelpBalloon();
+	}
+});
+
 /* ---------- engine badge ---------- */
 
 fetch("wasm/build-info.json")
 	.then((r) => r.json())
 	.then((i) => {
-		$("engine-rev").textContent = " @ " + i.raptor;
+		$("version-num").textContent = "v0.1.0-" + i.raptor;
 		const b = $("engine-badge");
 		b.textContent = "raptor " + i.raptor;
 		b.classList.remove("d-none");
