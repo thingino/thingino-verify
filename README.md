@@ -67,8 +67,11 @@ the page and the `rverify` CLI can never disagree about a file:
 - the verbatim output becomes the report, the exit code the verdict
   (0 verified/consistent, 1 tampered, 2 unsigned or unreadable)
 
-`web/wasm/build-info.json` records the raptor commit the engine was
-built from; the footer shows it.
+The engine is not a committed blob: CI rebuilds it from the pinned
+raptor / raptor-common revisions in `build-wasm.sh` and runs the
+parity suite before every deploy, so every deployed byte traces to
+public sources through a public build. `web/wasm/build-info.json`
+records the exact revisions and emcc version; the footer shows them.
 
 Practical size limit: the file is held in WASM memory about twice
 over (filesystem copy plus the verifier's read buffer), and wasm32
@@ -78,8 +81,15 @@ clips are tens of megabytes.
 ## Building
 
 ```
-./build-wasm.sh          # needs emsdk; RAPTOR/COMMON env override paths
+./build-wasm.sh
 ```
+
+Standalone: fetches the pinned raptor and raptor-common revisions
+into `build-deps/` and finds a toolchain (your `PATH`, then
+`~/emsdk`, else it installs the pinned emsdk into `build-deps/`).
+To build against local trees instead: `RAPTOR=/path COMMON=/path
+./build-wasm.sh`. Engine bumps are a one-line pin change in
+`build-wasm.sh`, in their own commit.
 
 ## Testing
 

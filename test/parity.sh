@@ -4,8 +4,16 @@
 set -e
 cd "$(dirname "$0")"
 
-RAPTOR=${RAPTOR:-$HOME/projects/thingino/raptor}
-COMMON=${COMMON:-$HOME/projects/thingino/raptor-common}
+# Prefer the pinned checkouts build-wasm.sh fetched; fall back to
+# sibling dev trees.
+if [ -z "$RAPTOR" ]; then
+	RAPTOR=$(pwd)/../build-deps/raptor
+	[ -d "$RAPTOR" ] || RAPTOR=$HOME/projects/thingino/raptor
+fi
+if [ -z "$COMMON" ]; then
+	COMMON=$(pwd)/../build-deps/raptor-common
+	[ -d "$COMMON" ] || COMMON=$HOME/projects/thingino/raptor-common
+fi
 
 cc -O2 -o rverify-native \
     "$RAPTOR/rverify/rverify.c" \

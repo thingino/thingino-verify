@@ -1,9 +1,10 @@
 name: deploy
 
-# Deploys web/ to GitHub Pages (verify.thingino.com). The site is
-# fully static; the committed WASM engine is deployed as-is, with its
-# provenance recorded in web/wasm/build-info.json (raptor commit).
-# Rebuild locally with ./build-wasm.sh when bumping the engine.
+# Build the WASM engine from the pinned raptor/raptor-common
+# revisions (see build-wasm.sh), prove native/WASM parity, then
+# deploy web/ to GitHub Pages (verify.thingino.com). The engine is
+# never a committed blob: every deployed byte traces to public
+# sources through this public build.
 
 on:
   push:
@@ -27,6 +28,23 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+
+      # Pinned sources + emsdk land in build-deps/; the cache key
+      # follows build-wasm.sh, where the pins live.
+      - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: build-deps
+          key: build-deps-${{ hashFiles('build-wasm.sh') }}
+
+      - name: build engine from pinned sources
+        run: ./build-wasm.sh
+
+      - name: parity gate (ffmpeg for the fixture clip)
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q --no-install-recommends ffmpeg
+          ./test/parity.sh
+
       - uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
       - uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4
         with:

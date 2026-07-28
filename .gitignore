@@ -1,3 +1,5 @@
+build-deps/
+web/wasm/
 test/rverify-native
 test/sign-fixture
 test/base.mp4

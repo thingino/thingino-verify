@@ -1,18 +1,66 @@
 #!/bin/bash
 # Build rverify (raptor's signed-media verifier) to WebAssembly.
 #
-# The web page runs the SAME sources as the on-device/CLI verifier:
-# rverify.c + rss_jpeg.c + monocypher. The page and `rverify` can
-# never disagree about a file.
+# Standalone: fetches its own pinned inputs (raptor, raptor-common,
+# emsdk) into build-deps/, so the same invocation works on a dev box
+# and in CI:
+#
+#     ./build-wasm.sh
+#
+# The web page runs the SAME sources as the on-device/CLI verifier;
+# CI rebuilds from the pins below and re-proves native/WASM parity on
+# every deploy, so the page and `rverify` can never disagree.
+#
+# Local overrides: RAPTOR=/path COMMON=/path build against existing
+# trees as-is (build-info.json then records their actual HEADs).
 set -e
 cd "$(dirname "$0")"
 
-RAPTOR=${RAPTOR:-$HOME/projects/thingino/raptor}
-COMMON=${COMMON:-$HOME/projects/thingino/raptor-common}
-EMSDK=${EMSDK:-$HOME/emsdk}
+# Engine provenance pins. Bump deliberately, in their own commit.
+RAPTOR_REV=15a401cf1d58ba4d476df5acb6252203a6213832
+COMMON_REV=75d83e8bd2c6d2a2c8ef2b8a7040d74b84236d04
+EMSDK_VER=5.0.4
 
-# shellcheck disable=SC1091
-source "$EMSDK/emsdk_env.sh" >/dev/null 2>&1
+DEPS=$PWD/build-deps
+
+fetch_pinned() { # url rev dest
+	local url=$1 rev=$2 dest=$3
+	if [ ! -e "$dest/.git" ]; then
+		git init -q "$dest"
+		git -C "$dest" remote add origin "$url"
+	fi
+	if [ "$(git -C "$dest" rev-parse HEAD 2>/dev/null)" != "$rev" ]; then
+		echo "fetching $(basename "$dest") @ $rev"
+		git -C "$dest" fetch -q --depth 1 origin "$rev"
+		git -C "$dest" checkout -q "$rev"
+	fi
+}
+
+if [ -z "$RAPTOR" ]; then
+	RAPTOR=$DEPS/raptor
+	fetch_pinned https://github.com/gtxaspec/raptor "$RAPTOR_REV" "$RAPTOR"
+fi
+if [ -z "$COMMON" ]; then
+	COMMON=$DEPS/raptor-common
+	fetch_pinned https://github.com/gtxaspec/raptor-common "$COMMON_REV" "$COMMON"
+fi
+
+# Toolchain: PATH first, then an existing ~/emsdk, else a pinned
+# install into build-deps/ (the CI path).
+if ! command -v emcc >/dev/null 2>&1; then
+	if [ -f "$HOME/emsdk/emsdk_env.sh" ]; then
+		# shellcheck disable=SC1091
+		source "$HOME/emsdk/emsdk_env.sh" >/dev/null 2>&1
+	else
+		if [ ! -d "$DEPS/emsdk" ]; then
+			git clone -q --depth 1 https://github.com/emscripten-core/emsdk "$DEPS/emsdk"
+		fi
+		"$DEPS/emsdk/emsdk" install "$EMSDK_VER"
+		"$DEPS/emsdk/emsdk" activate "$EMSDK_VER"
+		# shellcheck disable=SC1091
+		source "$DEPS/emsdk/emsdk_env.sh"
+	fi
+fi
 
 mkdir -p web/wasm
 emcc -O2 \
@@ -31,6 +79,12 @@ emcc -O2 \
     -sENVIRONMENT=worker,node \
     -o web/wasm/rverify.js
 
-REV=$(git -C "$RAPTOR" rev-parse --short HEAD 2>/dev/null || echo unknown)
-printf '{"raptor":"%s","built":"%s"}\n' "$REV" "$(date -u +%FT%TZ)" > web/wasm/build-info.json
-echo "built web/wasm/rverify.{js,wasm} from raptor @ $REV"
+RREV=$(git -C "$RAPTOR" rev-parse HEAD 2>/dev/null || echo unknown)
+CREV=$(git -C "$COMMON" rev-parse HEAD 2>/dev/null || echo unknown)
+EMCC=$(emcc --version | head -1 | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1)
+printf '{"raptor":"%s","raptor_common":"%s","emcc":"%s","built":"%s"}\n' \
+	"$RREV" "$CREV" "$EMCC" "$(date -u +%FT%TZ)" > web/wasm/build-info.json
+echo "built web/wasm/rverify.{js,wasm}"
+echo "  raptor        $RREV"
+echo "  raptor-common $CREV"
+echo "  emcc          $EMCC"

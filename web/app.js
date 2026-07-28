@@ -337,9 +337,11 @@ document.addEventListener("mousemove", (e) => {
 fetch("wasm/build-info.json")
 	.then((r) => r.json())
 	.then((i) => {
-		$("version-num").textContent = "v0.1.0-" + i.raptor;
+		const rev = (i.raptor || "").slice(0, 7);
+		$("version-num").textContent = "v0.1.0-" + rev;
 		const b = $("engine-badge");
-		b.textContent = "raptor " + i.raptor;
+		b.textContent = "raptor " + rev;
+		b.title = "engine: raptor " + i.raptor + ", emcc " + (i.emcc || "?");
 		b.classList.remove("d-none");
 	})
 	.catch(() => {});
