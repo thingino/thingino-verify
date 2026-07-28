@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'none'">
+  <title>thingino · Media Verifier</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link href="vendor/bootstrap.min.css" rel="stylesheet">
+  <link href="vendor/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="vendor/montserrat.css" rel="stylesheet">
+  <style>
+    :root { --bs-font-sans-serif: "Montserrat", sans-serif; }
+    body { min-height:100vh; display:flex; flex-direction:column; align-items:center; background:#0d1117; }
+    .verify-card { width:100%; max-width:720px; }
+    .card-title { color: darkorange !important; }
+    code { color: darkorange; }
+    .btn-thingino { background:#ff8c00; border-color:#ff8c00; color:#0d1117; font-weight:600; }
+    .btn-thingino:hover, .btn-thingino:focus { background:#ff9e2c; border-color:#ff9e2c; color:#0d1117; }
+    .btn-thingino:disabled { background:transparent; border-color:#30363d; color:#484f58; opacity:1; cursor:not-allowed; }
+    .muted { color:#8b949e !important; }
+
+    #dropzone {
+      border:2px dashed #30363d; border-radius:8px; cursor:pointer;
+      padding:2.2rem 1rem; text-align:center; color:#8b949e;
+      transition: border-color .15s ease, background .15s ease;
+    }
+    #dropzone:hover, #dropzone.drag { border-color:#ff8c00; background:rgba(255,140,0,0.05); color:#c9d1d9; }
+    #dropzone .bi { font-size:2rem; color:darkorange; display:block; margin-bottom:.4rem; }
+    .file-info { font-size:.85rem; color:#8b949e; }
+    .file-info .value { color:darkorange; font-family:monospace; }
+    input[type="file"] { display:none; }
+
+    #pubkey { font-family:monospace; font-size:.8rem; }
+    .fp-chip { font-family:monospace; font-size:.75rem; color:#8b949e; }
+    .fp-chip b { color:darkorange; font-weight:600; }
+
+    #verdict .alert { margin-bottom:0; }
+    #verdict .verdict-title { font-weight:600; }
+
+    #log {
+      height: 300px; overflow-y:auto;
+      font-family:'Courier New', monospace; font-size:.78rem; line-height:1.5;
+      white-space:pre-wrap; word-break:break-all;
+      background:#010409; border:1px solid #30363d; border-radius:6px; padding:.6rem;
+    }
+    #log .info  { color:#c9d1d9; }
+    #log .ok    { color:#3fb950; }
+    #log .warn  { color:darkorange; }
+    #log .error { color:#f85149; }
+    #log .dim   { color:#484f58; }
+
+    @media (max-width:576px){
+      body{ padding:.5rem !important; }
+      .card-header{ padding:.6rem .75rem; }
+      .card-body{ padding:.75rem; }
+      .card-footer{ padding:.75rem; }
+      #log{ height:240px; font-size:.7rem; }
+    }
+  </style>
+</head>
+<body class="p-3">
+<div class="verify-card">
+
+  <!-- Verifier -->
+  <div class="card mb-3">
+    <div class="card-header d-flex align-items-center gap-2">
+      <h2 class="card-title mb-0 fs-5" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;">
+        <i class="bi bi-shield-check me-1"></i><span class="d-none d-sm-inline"> Thingino Media Verifier</span><span class="d-sm-none"> Media Verifier</span>
+      </h2>
+      <span class="badge bg-info-subtle text-info border border-info-subtle ms-auto" title="The file is read and verified locally; nothing is uploaded.">100% local</span>
+      <span id="engine-badge" class="badge bg-secondary d-none" title="rverify build"></span>
+    </div>
+
+    <div class="card-body">
+      <div id="dropzone" title="Drop a recording here, or click to choose">
+        <i class="bi bi-file-earmark-play"></i>
+        <div>Drop a raptor-signed <strong>.mp4</strong> recording or <strong>.jpg</strong> snapshot here,<br>or click to choose a file</div>
+      </div>
+      <div class="file-info mt-2 d-none" id="file-info">
+        <i class="bi bi-file-earmark-binary me-1"></i><span class="value" id="file-name"></span>
+        <span class="ms-1" id="file-size"></span>
+      </div>
+      <input type="file" id="file-input" accept=".mp4,.mov,.jpg,.jpeg,video/mp4,image/jpeg">
+
+      <div class="mt-3">
+        <label for="pubkey" class="form-label small text-secondary mb-1">Camera public key <span class="muted">(optional)</span></label>
+        <input id="pubkey" class="form-control form-control-sm" autocomplete="off" spellcheck="false"
+               placeholder="Ed25519 public key, 64 hex characters">
+        <div class="d-flex justify-content-between mt-1">
+          <div class="small muted">Without a key, only hash-chain integrity is checked, not who signed it.</div>
+          <div class="fp-chip d-none" id="key-fp">key fp <b></b></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-footer">
+      <div class="d-flex flex-wrap align-items-center gap-2">
+        <button id="btn-verify" class="btn btn-thingino btn-sm" disabled>
+          <i class="bi bi-shield-check me-1"></i> Verify
+        </button>
+        <span id="busy" class="spinner-border spinner-border-sm text-warning d-none"></span>
+        <span class="small muted ms-auto">Try a sample:</span>
+        <button class="btn btn-outline-success btn-sm" id="btn-sample-good" title="A test clip signed with the bundled test key">
+          <i class="bi bi-patch-check me-1"></i> signed
+        </button>
+        <button class="btn btn-outline-danger btn-sm" id="btn-sample-bad" title="The same clip with one byte of video flipped">
+          <i class="bi bi-bandaid me-1"></i> tampered
+        </button>
+      </div>
+      <div id="verdict" class="mt-2"></div>
+    </div>
+  </div>
+
+  <!-- Report -->
+  <div class="card">
+    <div class="card-header d-flex align-items-center gap-2">
+      <h2 class="card-title mb-0 fs-6"><i class="bi bi-terminal me-1"></i> Report</h2>
+      <span class="small muted ms-auto">verbatim <code>rverify</code> output</span>
+    </div>
+    <div class="card-body p-2">
+      <div id="log"><span class="dim">Pick a file to verify. Every recording written by raptor's recorder carries an Ed25519
+hash chain: each signature box covers all bytes since the previous box, chained to the
+previous signature, so any cut, splice, or edit breaks the chain at that point.</span></div>
+    </div>
+  </div>
+
+  <p class="mt-2 small text-center muted">
+    All verification happens in your browser - nothing is uploaded ·
+    engine: <a href="https://github.com/gtxaspec/raptor" target="_blank" rel="noopener" class="link-secondary text-decoration-none">rverify</a><span id="engine-rev"></span> compiled to WebAssembly ·
+    thingino-verify
+  </p>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

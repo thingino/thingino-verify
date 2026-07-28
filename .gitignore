@@ -1,0 +1,6 @@
+test/rverify-native
+test/sign-fixture
+test/base.mp4
+test/signed.mp4
+test/tampered.mp4
+test/fixture.pub
