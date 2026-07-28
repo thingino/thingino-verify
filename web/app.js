@@ -343,6 +343,8 @@ fetch("wasm/build-info.json")
 		const b = $("engine-badge");
 		b.textContent = "raptor " + (i.raptor || "").slice(0, 7);
 		b.title = "engine: raptor " + i.raptor + ", raptor-common " + (i.raptor_common || "?") + ", emcc " + (i.emcc || "?");
+		if (/^[0-9a-f]{40}$/.test(i.raptor || ""))
+			b.href = "https://github.com/gtxaspec/raptor/commit/" + i.raptor;
 		b.classList.remove("d-none");
 	})
 	.catch(() => {});
