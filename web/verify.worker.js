@@ -13,6 +13,9 @@ self.onmessage = async (e) => {
 	let mod;
 	try {
 		mod = await createRVerify({
+			/* importScripts resolves the .wasm against the WORKER's URL
+			 * (site root), not the glue's directory; point it back. */
+			locateFile: (f) => "wasm/" + f,
 			print: (s) => lines.push({ t: "out", s }),
 			printErr: (s) => lines.push({ t: "err", s }),
 			onExit: (c) => {
