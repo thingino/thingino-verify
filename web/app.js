@@ -337,11 +337,12 @@ document.addEventListener("mousemove", (e) => {
 fetch("wasm/build-info.json")
 	.then((r) => r.json())
 	.then((i) => {
-		const rev = (i.raptor || "").slice(0, 7);
-		$("version-num").textContent = "v0.1.0-" + rev;
+		// Footer = this site's own revision (webflash convention);
+		// the header badge carries the engine provenance.
+		$("version-num").textContent = "v0.1.0-" + (i.site || "").slice(0, 7);
 		const b = $("engine-badge");
-		b.textContent = "raptor " + rev;
-		b.title = "engine: raptor " + i.raptor + ", emcc " + (i.emcc || "?");
+		b.textContent = "raptor " + (i.raptor || "").slice(0, 7);
+		b.title = "engine: raptor " + i.raptor + ", raptor-common " + (i.raptor_common || "?") + ", emcc " + (i.emcc || "?");
 		b.classList.remove("d-none");
 	})
 	.catch(() => {});

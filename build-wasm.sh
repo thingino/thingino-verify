@@ -79,11 +79,12 @@ emcc -O2 \
     -sENVIRONMENT=worker,node \
     -o web/wasm/rverify.js
 
+SITE=$(git rev-parse HEAD 2>/dev/null || echo unknown)
 RREV=$(git -C "$RAPTOR" rev-parse HEAD 2>/dev/null || echo unknown)
 CREV=$(git -C "$COMMON" rev-parse HEAD 2>/dev/null || echo unknown)
 EMCC=$(emcc --version | head -1 | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1)
-printf '{"raptor":"%s","raptor_common":"%s","emcc":"%s","built":"%s"}\n' \
-	"$RREV" "$CREV" "$EMCC" "$(date -u +%FT%TZ)" > web/wasm/build-info.json
+printf '{"site":"%s","raptor":"%s","raptor_common":"%s","emcc":"%s","built":"%s"}\n' \
+	"$SITE" "$RREV" "$CREV" "$EMCC" "$(date -u +%FT%TZ)" > web/wasm/build-info.json
 echo "built web/wasm/rverify.{js,wasm}"
 echo "  raptor        $RREV"
 echo "  raptor-common $CREV"
