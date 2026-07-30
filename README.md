@@ -127,6 +127,19 @@ tampered, and wrong key.
 ./test/i18n.sh
 ```
 
+```
+cd web && python3 -m http.server 8123 &
+./test/ui.py
+```
+
+Drives the real page in headless chromium over CDP and asserts what
+markup inspection cannot: translations reach the DOM, the gear opens
+the dialog, switching language retranslates live (and Arabic flips to
+RTL), the signed sample verifies *and* its video decodes, the tampered
+sample is withheld with the warning surviving a decode failure, and
+"play anyway" reveals it. Skips cleanly when no chromium is present, so
+it does not gate CI.
+
 Checks every dictionary against `i18n-vfy-en.js`: it parses, declares
 the language its filename claims, carries exactly the English key set,
 and keeps the pieces translators tend to drop (the `{name}` slot,

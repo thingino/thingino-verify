@@ -35,6 +35,7 @@ function setFile(f) {
  * arrive as an ArrayBuffer that the worker will claim, so the blob is
  * built from a copy before that transfer. */
 let previewUrl = null;
+let previewBlocked = false;
 
 function showPreview(f) {
 	const video = $("preview-video");
@@ -50,6 +51,7 @@ function showPreview(f) {
 	video.classList.add("d-none");
 	image.classList.add("d-none");
 
+	previewBlocked = false;
 	unblockPreview();
 
 	const name = (f.name || "").toLowerCase();
@@ -63,6 +65,9 @@ function showPreview(f) {
 	// real file can always be a codec the browser will not take.
 	const el = isImage ? image : video;
 	el.onerror = () => {
+		// "failed verification" outranks "cannot decode": a tampered file
+		// often will not decode either, and that is the lesser reason.
+		if (previewBlocked) return;
 		card.classList.add("d-none");
 		$("preview-unplayable").classList.remove("d-none");
 	};
@@ -216,15 +221,26 @@ function clearVerdict() {
  * frames with artifacts. Playing it anyway would undercut the verdict,
  * so the player is withheld until the viewer explicitly asks for it. */
 function blockPreview() {
-	const card = $("preview-card");
-	if (card.classList.contains("d-none")) return; // nothing decodable anyway
+	previewBlocked = true;
 	$("preview-video").pause();
+	$("preview-unplayable").classList.add("d-none");
 	$("preview-media").classList.add("d-none");
 	$("preview-blocked").classList.remove("d-none");
+	$("preview-card").classList.remove("d-none"); // show it even if decoding failed
 }
 
 function unblockPreview() {
+	previewBlocked = false;
 	$("preview-blocked").classList.add("d-none");
+	const v = $("preview-video"), i = $("preview-image");
+	// Overriding an undecodable file gets the honest reason, not a dead player.
+	const broken = (!v.classList.contains("d-none") && v.error) ||
+		(!i.classList.contains("d-none") && i.getAttribute("src") && !i.naturalWidth);
+	if (broken) {
+		$("preview-card").classList.add("d-none");
+		$("preview-unplayable").classList.remove("d-none");
+		return;
+	}
 	$("preview-media").classList.remove("d-none");
 }
 
