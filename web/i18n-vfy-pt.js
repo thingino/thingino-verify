@@ -31,11 +31,18 @@ I18N.add("pt", {
   sample_bad_title: "O mesmo clipe com um byte de vídeo alterado",
 
   // report
+  preview_title: "Pré-visualização",
+  preview_note: "reproduzido localmente, nunca enviado",
+  preview_unplayable: "Sem pré-visualização: o navegador não consegue decodificar este arquivo. A verificação não é afetada.",
   report_title: "Relatório",
   report_note: "saída literal do <code>rverify</code>",
   log_intro: "Escolha um arquivo para verificar. Toda gravação escrita pelo gravador do raptor carrega uma cadeia de hashes Ed25519: cada caixa de assinatura cobre todos os bytes desde a caixa anterior e está encadeada à assinatura anterior, portanto qualquer corte, emenda ou edição rompe a cadeia nesse ponto.",
   footer_link: "thingino-verify",
-  lang_label: "Idioma",
+  settings_lang: "Idioma",
+  settings_title: "Configurações",
+  gear_title: "Configurações",
+  btn_close: "Fechar",
+  setting_help_label: "Mostra as dicas de ajuda: passe o cursor sobre qualquer controle para ver uma dica (ou use o botão ?).",
 
   // verdicts
   v_verifying: "verificando {name} ...",
@@ -67,5 +74,7 @@ I18N.add("pt", {
   help_verify: "Executa o rverify no arquivo selecionado. Resultados possíveis: verificado / consistente (sem chave) / adulterado / não assinado.",
   help_sample_good: "Um clipe de teste incluído, assinado com a chave TEST pública. Mostra como é uma verificação sem problemas.",
   help_sample_bad: "O mesmo clipe de teste com um byte de vídeo alterado. Mostra como a cadeia de hashes localiza com precisão a adulteração.",
+  help_settings: "Configurações: idioma da interface e dicas de ajuda.",
+  help_preview: "Reproduz o arquivo selecionado direto da memória do seu navegador, para você ver o que acabou de verificar. Nada é enviado.",
   help_report: "A saída literal do rverify: uma linha por caixa de assinatura, com o tamanho do intervalo coberto e o resultado, além dos códigos de tempo embutidos.",
 });

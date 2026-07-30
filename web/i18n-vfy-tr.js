@@ -31,11 +31,18 @@ I18N.add("tr", {
   sample_bad_title: "Aynı klibin video verisinde bir baytı değiştirilmiş hali",
 
   // report
+  preview_title: "Önizleme",
+  preview_note: "yerel olarak oynatılır, hiçbir yere yüklenmez",
+  preview_unplayable: "Önizleme yok: tarayıcı bu dosyanın kodunu çözemiyor. Bu, doğrulamayı etkilemez.",
   report_title: "Rapor",
   report_note: "birebir <code>rverify</code> çıktısı",
   log_intro: "Doğrulanacak bir dosya seçin. raptor'un kaydedicisi tarafından yazılan her kayıt bir Ed25519 hash zinciri taşır: her imza kutusu önceki kutudan bu yana gelen tüm baytları kapsar ve önceki imzaya zincirlenir, bu yüzden herhangi bir kesme, ekleme veya düzenleme zinciri o noktada kırar.",
   footer_link: "thingino-verify",
-  lang_label: "Dil",
+  settings_lang: "Dil",
+  settings_title: "Ayarlar",
+  gear_title: "Ayarlar",
+  btn_close: "Kapat",
+  setting_help_label: "Yardım ipuçlarını göster: ipucu için herhangi bir kontrolün üzerine gelin (veya ? düğmesini kullanın).",
 
   // verdicts
   v_verifying: "{name} doğrulanıyor ...",
@@ -67,5 +74,7 @@ I18N.add("tr", {
   help_verify: "Seçili dosyada rverify'ı çalıştırır. Olası sonuçlar: doğrulandı / tutarlı (anahtarsız) / değiştirilmiş / imzasız.",
   help_sample_good: "Herkese açık TEST anahtarıyla imzalanmış, birlikte gelen bir test klibi. Sorunsuz bir doğrulamanın nasıl göründüğünü gösterir.",
   help_sample_bad: "Aynı test klibinin video verisinde bir baytı değiştirilmiş hali. Hash zincirinin kurcalamayı nasıl tam olarak saptadığını gösterir.",
+  help_settings: "Ayarlar: arayüz dili ve yardım ipuçları.",
+  help_preview: "Seçili dosyayı doğrudan tarayıcınızın belleğinden oynatır, böylece az önce doğruladığınız kaydı izleyebilirsiniz. Hiçbir şey yüklenmez.",
   help_report: "Birebir rverify çıktısı: her imza kutusu için kapsadığı aralığın boyutunu ve sonucunu içeren birer satır, ayrıca gömülü zaman kodları.",
 });

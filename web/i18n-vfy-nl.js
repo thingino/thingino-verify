@@ -31,11 +31,18 @@ I18N.add("nl", {
   sample_bad_title: "Dezelfde clip met één byte video gewijzigd",
 
   // report
+  preview_title: "Voorbeeld",
+  preview_note: "lokaal afgespeeld, nooit geüpload",
+  preview_unplayable: "Geen voorbeeld: de browser kan dit bestand niet decoderen. Dat heeft geen invloed op de verificatie.",
   report_title: "Rapport",
   report_note: "onbewerkte uitvoer van <code>rverify</code>",
   log_intro: "Kies een bestand om te verifiëren. Elke opname die de recorder van raptor schrijft, bevat een Ed25519-hashketen: elke signatuurbox dekt alle bytes sinds de vorige box en is geketend aan de vorige signatuur, dus elke knip, montage of wijziging verbreekt de keten op dat punt.",
   footer_link: "thingino-verify",
-  lang_label: "Taal",
+  settings_lang: "Taal",
+  settings_title: "Instellingen",
+  gear_title: "Instellingen",
+  btn_close: "Sluiten",
+  setting_help_label: "Hulptips tonen: beweeg over een element voor een tip (of gebruik de knop ?).",
 
   // verdicts
   v_verifying: "{name} wordt geverifieerd ...",
@@ -67,5 +74,7 @@ I18N.add("nl", {
   help_verify: "Voert rverify uit op het geselecteerde bestand. Mogelijke uitkomsten: geverifieerd / consistent (zonder sleutel) / gemanipuleerd / niet ondertekend.",
   help_sample_good: "Een meegeleverde testclip, ondertekend met de publieke TEST-sleutel. Laat zien hoe een geslaagde verificatie eruitziet.",
   help_sample_bad: "Dezelfde testclip met één byte video gewijzigd. Laat zien hoe de hashketen de manipulatie precies aanwijst.",
+  help_settings: "Instellingen: taal van de interface en hulptips.",
+  help_preview: "Speelt het geselecteerde bestand rechtstreeks uit het geheugen van je browser af, zodat je kunt bekijken wat je net hebt geverifieerd. Er wordt niets geüpload.",
   help_report: "De onbewerkte uitvoer van rverify: één regel per signatuurbox met de grootte van het bereik en de uitkomst, plus de ingebedde timecodes.",
 });

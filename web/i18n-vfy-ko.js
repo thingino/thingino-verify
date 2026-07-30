@@ -31,11 +31,18 @@ I18N.add("ko", {
   sample_bad_title: "같은 클립에서 영상 1바이트를 바꾼 것",
 
   // report
+  preview_title: "미리 보기",
+  preview_note: "로컬에서 재생되며 업로드되지 않음",
+  preview_unplayable: "미리 보기 없음: 브라우저가 이 파일을 디코딩할 수 없습니다. 검증에는 영향이 없습니다.",
   report_title: "보고서",
   report_note: "<code>rverify</code> 출력 원문",
   log_intro: "검증할 파일을 선택하세요. raptor 레코더가 기록한 모든 녹화에는 Ed25519 해시 체인이 들어 있습니다. 각 서명 박스는 이전 박스 이후의 모든 바이트를 포함하며 이전 서명에 연결되어 있으므로, 잘라내기나 이어붙이기, 편집이 있으면 그 지점에서 체인이 끊어집니다.",
   footer_link: "thingino-verify",
-  lang_label: "언어",
+  settings_lang: "언어",
+  settings_title: "설정",
+  gear_title: "설정",
+  btn_close: "닫기",
+  setting_help_label: "도움말 힌트 표시: 아무 컨트롤에나 마우스를 올리면 힌트가 표시됩니다(또는 ? 버튼 사용).",
 
   // verdicts
   v_verifying: "{name} 검증 중 …",
@@ -67,5 +74,7 @@ I18N.add("ko", {
   help_verify: "선택한 파일에 rverify를 실행합니다. 판정 결과: 검증됨 / 일관됨(키 없음) / 변조됨 / 서명 없음.",
   help_sample_good: "공개 TEST 키로 서명된 번들 테스트 클립입니다. 정상 검증이 어떻게 보이는지 보여줍니다.",
   help_sample_bad: "같은 테스트 클립에서 영상 1바이트를 바꾼 것입니다. 해시 체인이 변조 지점을 어떻게 짚어내는지 보여줍니다.",
+  help_settings: "설정: 인터페이스 언어와 도움말 힌트.",
+  help_preview: "선택한 파일을 브라우저 메모리에서 바로 재생하여 방금 검증한 내용을 확인할 수 있습니다. 아무것도 업로드되지 않습니다.",
   help_report: "rverify 출력 원문: 서명 박스마다 한 줄씩 구간 크기와 판정이 표시되고, 내장된 타임코드도 함께 나옵니다.",
 });

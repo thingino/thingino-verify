@@ -31,11 +31,18 @@ I18N.add("de", {
   sample_bad_title: "Derselbe Clip, bei dem ein Video-Byte verändert wurde",
 
   // report
+  preview_title: "Vorschau",
+  preview_note: "wird lokal abgespielt, nie hochgeladen",
+  preview_unplayable: "Keine Vorschau: der Browser kann diese Datei nicht dekodieren. Die Verifizierung ist davon nicht betroffen.",
   report_title: "Bericht",
   report_note: "unveränderte <code>rverify</code>-Ausgabe",
   log_intro: "Wähle eine Datei zum Verifizieren. Jede Aufnahme, die der Recorder von raptor schreibt, trägt eine Ed25519-Hash-Kette: jede Signatur-Box deckt alle Bytes seit der vorherigen Box ab und ist mit der vorherigen Signatur verkettet, sodass jeder Schnitt, jede Einfügung und jede Bearbeitung die Kette an dieser Stelle bricht.",
   footer_link: "thingino-verify",
-  lang_label: "Sprache",
+  settings_lang: "Sprache",
+  settings_title: "Einstellungen",
+  gear_title: "Einstellungen",
+  btn_close: "Schließen",
+  setting_help_label: "Hilfehinweise anzeigen: fahre über ein beliebiges Element für einen Tipp (oder nutze die Schaltfläche ?).",
 
   // verdicts
   v_verifying: "verifiziere {name} ...",
@@ -67,5 +74,7 @@ I18N.add("de", {
   help_verify: "Führt rverify auf der ausgewählten Datei aus. Mögliche Ergebnisse: verifiziert / konsistent (ohne Schlüssel) / manipuliert / unsigniert.",
   help_sample_good: "Ein mitgelieferter Testclip, signiert mit dem öffentlichen TEST-Schlüssel. Zeigt, wie eine erfolgreiche Verifizierung aussieht.",
   help_sample_bad: "Derselbe Testclip mit einem veränderten Video-Byte. Zeigt, wie die Hash-Kette die Manipulation genau lokalisiert.",
+  help_settings: "Einstellungen: Sprache der Oberfläche und Hilfehinweise.",
+  help_preview: "Spielt die ausgewählte Datei direkt aus dem Speicher deines Browsers ab, damit du sehen kannst, was du gerade verifiziert hast. Nichts wird hochgeladen.",
   help_report: "Die unveränderte rverify-Ausgabe: eine Zeile pro Signatur-Box mit ihrer Abschnittsgröße und ihrem Ergebnis, dazu die eingebetteten Timecodes.",
 });

@@ -73,6 +73,12 @@ parity suite before every deploy, so every deployed byte traces to
 public sources through a public build. `web/wasm/build-info.json`
 records the exact revisions and emcc version; the footer shows them.
 
+A picked file is also played back locally: the page builds a `blob:`
+URL so a recording plays (or a snapshot displays) in the browser
+without leaving it, and hides the player with a note when the browser
+cannot decode the file. Language and the help-hint toggle live behind
+the gear in a settings dialog, matching webflash and the image builder.
+
 The UI is translated into 15 languages, auto-detected from the browser
 and switchable in the footer. The runtime (`web/i18n.js`) is the same
 tiny CSP-safe one webflash and the image builder use: no eval, no
@@ -125,7 +131,11 @@ deploys in CI.
 
 `web/samples/` holds the same fixtures for the page's "try a sample"
 buttons. The sample key is a fixed, public TEST key; nothing signed
-with it proves anything.
+with it proves anything. The fixtures are real playable clips, so the
+preview plays them and the tampered one visibly glitches: inserting a
+signature box shifts every sample offset in `moov`, so
+`sign-fixture.c` patches `stco`/`co64` by the box size before hashing.
+Skip that and the fixture still verifies but will not decode.
 
 ## Serving
 

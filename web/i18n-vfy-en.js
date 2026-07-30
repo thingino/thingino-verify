@@ -32,11 +32,18 @@ I18N.add("en", {
   sample_bad_title: "The same clip with one byte of video flipped",
 
   // report
+  preview_title: "Preview",
+  preview_note: "played locally, never uploaded",
+  preview_unplayable: "No preview: the browser cannot decode this file. Verification is unaffected.",
   report_title: "Report",
   report_note: "verbatim <code>rverify</code> output",
   log_intro: "Pick a file to verify. Every recording written by raptor's recorder carries an Ed25519 hash chain: each signature box covers all bytes since the previous box, chained to the previous signature, so any cut, splice, or edit breaks the chain at that point.",
   footer_link: "thingino-verify",
-  lang_label: "Language",
+  settings_lang: "Language",
+  settings_title: "Settings",
+  gear_title: "Settings",
+  btn_close: "Close",
+  setting_help_label: "Show help hints: hover any control for a tip (or use the ? button).",
 
   // verdicts
   v_verifying: "verifying {name} ...",
@@ -68,5 +75,7 @@ I18N.add("en", {
   help_verify: "Run rverify on the selected file. Exit verdicts: verified / consistent (no key) / tampered / unsigned.",
   help_sample_good: "A bundled test clip signed with the public TEST key. Shows what a clean verification looks like.",
   help_sample_bad: "The same test clip with one byte of video flipped. Shows how the hash chain pinpoints tampering.",
+  help_settings: "Settings: interface language and help hints.",
+  help_preview: "Plays the selected file straight from your browser's memory, so you can watch what you just verified. Nothing is uploaded.",
   help_report: "The verbatim rverify output: one line per signature box with its span size and verdict, plus embedded timecodes.",
 });

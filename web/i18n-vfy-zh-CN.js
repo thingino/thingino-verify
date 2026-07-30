@@ -31,11 +31,18 @@ I18N.add("zh-CN", {
   sample_bad_title: "同一片段，但视频中有一个字节被改动",
 
   // report
+  preview_title: "预览",
+  preview_note: "在本地播放，绝不上传",
+  preview_unplayable: "无法预览：浏览器无法解码此文件。这不影响验证结果。",
   report_title: "报告",
   report_note: "<code>rverify</code> 的原始输出",
   log_intro: "请选择要验证的文件。raptor 录制器写出的每个录像都带有 Ed25519 哈希链：每个签名 box 覆盖自上一个 box 以来的全部字节，并与上一个签名相连，因此任何剪切、拼接或编辑都会在该处断开哈希链。",
   footer_link: "thingino-verify",
-  lang_label: "语言",
+  settings_lang: "语言",
+  settings_title: "设置",
+  gear_title: "设置",
+  btn_close: "关闭",
+  setting_help_label: "显示帮助提示：将鼠标悬停在任意控件上即可查看提示（或使用 ? 按钮）。",
 
   // verdicts
   v_verifying: "正在验证 {name} …",
@@ -67,5 +74,7 @@ I18N.add("zh-CN", {
   help_verify: "对所选文件运行 rverify。退出结论：已验证 / 一致（无密钥）/ 已篡改 / 未签名。",
   help_sample_good: "内置的测试片段，使用公开的 TEST 密钥签名。展示验证通过时的样子。",
   help_sample_bad: "同一测试片段，但视频中有一个字节被改动。展示哈希链如何精确定位篡改位置。",
+  help_settings: "设置：界面语言和帮助提示。",
+  help_preview: "直接从浏览器内存中播放所选文件，让你可以看到刚刚验证过的内容。不会上传任何内容。",
   help_report: "rverify 的原始输出：每个签名 box 占一行，显示其区段大小和结论，并附带内嵌的时间码。",
 });

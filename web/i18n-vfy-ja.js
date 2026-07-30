@@ -31,11 +31,18 @@ I18N.add("ja", {
   sample_bad_title: "同じクリップで映像の 1 バイトを書き換えたもの",
 
   // report
+  preview_title: "プレビュー",
+  preview_note: "ローカルで再生され、アップロードはされません",
+  preview_unplayable: "プレビューなし: ブラウザがこのファイルをデコードできません。検証には影響しません。",
   report_title: "レポート",
   report_note: "<code>rverify</code> の出力そのまま",
   log_intro: "検証するファイルを選んでください。raptor のレコーダーが書き出す録画には Ed25519 のハッシュチェーンが含まれます。各署名ボックスは直前のボックス以降の全バイトを対象とし、直前の署名につながっているため、カット・つなぎ替え・編集を行うとその位置でチェーンが壊れます。",
   footer_link: "thingino-verify",
-  lang_label: "言語",
+  settings_lang: "言語",
+  settings_title: "設定",
+  gear_title: "設定",
+  btn_close: "閉じる",
+  setting_help_label: "ヘルプヒントを表示：任意のコントロールにカーソルを合わせるとヒントが表示されます（または ? ボタンを使用）。",
 
   // verdicts
   v_verifying: "{name} を検証中 …",
@@ -67,5 +74,7 @@ I18N.add("ja", {
   help_verify: "選択したファイルに対して rverify を実行します。判定結果: 検証成功 / 整合（鍵なし）/ 改ざん / 未署名。",
   help_sample_good: "公開 TEST 鍵で署名された同梱のテストクリップ。検証が正常に通ったときの表示を確認できます。",
   help_sample_bad: "同じテストクリップで映像の 1 バイトを書き換えたもの。ハッシュチェーンが改ざん箇所を特定する仕組みを示します。",
+  help_settings: "設定: インターフェースの言語とヘルプヒント。",
+  help_preview: "選択したファイルをブラウザのメモリから直接再生するので、検証したばかりの内容をその場で確認できます。何もアップロードされません。",
   help_report: "rverify の出力そのまま: 署名ボックスごとに 1 行で、その範囲のサイズと判定、さらに埋め込みタイムコードが表示されます。",
 });

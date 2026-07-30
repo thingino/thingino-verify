@@ -25,6 +25,59 @@ function setFile(f) {
 	$("file-size").textContent = "(" + fmtSize(f.size ?? f.buffer.byteLength) + ")";
 	btnVerify.disabled = false;
 	clearVerdict();
+	showPreview(f);
+}
+
+/* ---------- preview ---------- */
+
+/* Local playback of whatever was picked: a blob URL, so the bytes never
+ * leave the page (the CSP allows blob: for media and img only). Samples
+ * arrive as an ArrayBuffer that the worker will claim, so the blob is
+ * built from a copy before that transfer. */
+let previewUrl = null;
+
+function showPreview(f) {
+	const video = $("preview-video");
+	const image = $("preview-image");
+	const card = $("preview-card");
+	if (previewUrl) {
+		URL.revokeObjectURL(previewUrl);
+		previewUrl = null;
+	}
+	video.pause();
+	video.removeAttribute("src");
+	image.removeAttribute("src");
+	video.classList.add("d-none");
+	image.classList.add("d-none");
+
+	const name = (f.name || "").toLowerCase();
+	const isImage = /\.jpe?g$/.test(name);
+	const type = isImage ? "image/jpeg" : "video/mp4";
+	const blob = f.buffer ? new Blob([f.buffer.slice(0)], { type }) : f;
+	previewUrl = URL.createObjectURL(blob);
+
+	// Undecodable media hides the card rather than showing a broken
+	// player: the bundled test fixtures carry synthetic frames, and a
+	// real file can always be a codec the browser will not take.
+	const el = isImage ? image : video;
+	el.onerror = () => {
+		card.classList.add("d-none");
+		$("preview-unplayable").classList.remove("d-none");
+	};
+	el.onloadeddata = el.onload = () => {
+		$("preview-unplayable").classList.add("d-none");
+	};
+	$("preview-unplayable").classList.add("d-none");
+
+	if (isImage) {
+		image.src = previewUrl;
+		image.alt = f.name;
+		image.classList.remove("d-none");
+	} else {
+		video.src = previewUrl;
+		video.classList.remove("d-none");
+	}
+	card.classList.remove("d-none");
 }
 
 function fmtSize(n) {
@@ -296,6 +349,7 @@ function applyHelpMode() {
 $("btn-help").addEventListener("click", () => {
 	helpMode = !helpMode;
 	localStorage.setItem("verify.help", helpMode ? "1" : "0");
+	$("setting-help").checked = helpMode;
 	applyHelpMode();
 });
 applyHelpMode();
@@ -314,6 +368,32 @@ document.addEventListener("mousemove", (e) => {
 	} else if (_helpHover) {
 		hideHelpBalloon();
 	}
+});
+
+/* ---------- settings dialog (same shape as webflash / image builder) ---------- */
+
+function openSettings() {
+	$("setting-help").checked = helpMode;
+	$("settings-overlay").classList.remove("d-none");
+}
+function closeSettings() {
+	$("settings-overlay").classList.add("d-none");
+}
+
+$("settings-btn").addEventListener("click", openSettings);
+$("settings-close").addEventListener("click", closeSettings);
+$("settings-overlay").addEventListener("click", (e) => {
+	if (e.target === $("settings-overlay")) closeSettings();
+});
+document.addEventListener("keydown", (e) => {
+	if (e.key === "Escape") closeSettings();
+});
+// Both settings apply live, so there is nothing to save: the language
+// switches inside I18N.selector, and the toggle mirrors the ? button.
+$("setting-help").addEventListener("change", (e) => {
+	helpMode = e.target.checked;
+	localStorage.setItem("verify.help", helpMode ? "1" : "0");
+	applyHelpMode();
 });
 
 /* ---------- i18n ---------- */

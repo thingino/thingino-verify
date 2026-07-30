@@ -31,11 +31,18 @@ I18N.add("it", {
   sample_bad_title: "Lo stesso clip con un byte di video alterato",
 
   // report
+  preview_title: "Anteprima",
+  preview_note: "riprodotto in locale, mai caricato",
+  preview_unplayable: "Nessuna anteprima: il browser non riesce a decodificare questo file. La verifica non ne è influenzata.",
   report_title: "Rapporto",
   report_note: "output letterale di <code>rverify</code>",
   log_intro: "Scegli un file da verificare. Ogni registrazione scritta dal registratore di raptor porta una catena di hash Ed25519: ogni blocco di firma copre tutti i byte dal blocco precedente ed è concatenato alla firma precedente, quindi qualsiasi taglio, giunzione o modifica rompe la catena in quel punto.",
   footer_link: "thingino-verify",
-  lang_label: "Lingua",
+  settings_lang: "Lingua",
+  settings_title: "Impostazioni",
+  gear_title: "Impostazioni",
+  btn_close: "Chiudi",
+  setting_help_label: "Mostra i suggerimenti di aiuto: passa il cursore su qualsiasi controllo per un consiglio (o usa il pulsante ?).",
 
   // verdicts
   v_verifying: "verifica di {name} ...",
@@ -67,5 +74,7 @@ I18N.add("it", {
   help_verify: "Esegue rverify sul file selezionato. Esiti possibili: verificato / coerente (senza chiave) / manomesso / non firmato.",
   help_sample_good: "Un clip di prova incluso, firmato con la chiave TEST pubblica. Mostra come appare una verifica riuscita.",
   help_sample_bad: "Lo stesso clip di prova con un byte di video alterato. Mostra come la catena di hash individua con precisione la manomissione.",
+  help_settings: "Impostazioni: lingua dell'interfaccia e suggerimenti di aiuto.",
+  help_preview: "Riproduce il file selezionato direttamente dalla memoria del tuo browser, così puoi vedere ciò che hai appena verificato. Non viene caricato nulla.",
   help_report: "L'output letterale di rverify: una riga per ogni blocco di firma con la dimensione del suo intervallo e il suo esito, più i timecode incorporati.",
 });

@@ -31,11 +31,18 @@ I18N.add("pl", {
   sample_bad_title: "Ten sam klip z jednym zmienionym bajtem obrazu",
 
   // report
+  preview_title: "Podgląd",
+  preview_note: "odtwarzany lokalnie, nigdy nie wysyłany",
+  preview_unplayable: "Brak podglądu: przeglądarka nie potrafi zdekodować tego pliku. Nie ma to wpływu na weryfikację.",
   report_title: "Raport",
   report_note: "dosłowne wyjście <code>rverify</code>",
   log_intro: "Wybierz plik do weryfikacji. Każde nagranie zapisane przez rejestrator raptor zawiera łańcuch skrótów Ed25519: każdy blok podpisu obejmuje wszystkie bajty od poprzedniego bloku i jest powiązany z poprzednim podpisem, więc każde wycięcie, wklejenie lub edycja przerywa łańcuch w tym miejscu.",
   footer_link: "thingino-verify",
-  lang_label: "Język",
+  settings_lang: "Język",
+  settings_title: "Ustawienia",
+  gear_title: "Ustawienia",
+  btn_close: "Zamknij",
+  setting_help_label: "Pokaż podpowiedzi: najedź na dowolny element, aby zobaczyć wskazówkę (lub użyj przycisku ?).",
 
   // verdicts
   v_verifying: "weryfikowanie {name} ...",
@@ -67,5 +74,7 @@ I18N.add("pl", {
   help_verify: "Uruchom rverify na wybranym pliku. Możliwe wyniki: zweryfikowany / spójny (bez klucza) / zmanipulowany / niepodpisany.",
   help_sample_good: "Dołączony klip testowy podpisany publicznym kluczem TEST. Pokazuje, jak wygląda poprawna weryfikacja.",
   help_sample_bad: "Ten sam klip testowy z jednym zmienionym bajtem obrazu. Pokazuje, jak łańcuch skrótów wskazuje miejsce manipulacji.",
+  help_settings: "Ustawienia: język interfejsu i podpowiedzi.",
+  help_preview: "Odtwarza wybrany plik wprost z pamięci przeglądarki, aby można było zobaczyć to, co właśnie zostało zweryfikowane. Nic nie jest wysyłane.",
   help_report: "Dosłowne wyjście rverify: jedna linia na blok podpisu z rozmiarem jego zakresu i wynikiem, plus wbudowane kody czasowe.",
 });

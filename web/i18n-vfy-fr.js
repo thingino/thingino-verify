@@ -31,11 +31,18 @@ I18N.add("fr", {
   sample_bad_title: "Le même clip avec un octet de vidéo modifié",
 
   // report
+  preview_title: "Aperçu",
+  preview_note: "lecture locale, rien n'est envoyé",
+  preview_unplayable: "Pas d'aperçu : le navigateur ne peut pas décoder ce fichier. La vérification n'en est pas affectée.",
   report_title: "Rapport",
   report_note: "sortie brute de <code>rverify</code>",
   log_intro: "Choisissez un fichier à vérifier. Chaque enregistrement écrit par l'enregistreur de raptor porte une chaîne de hachage Ed25519 : chaque bloc de signature couvre tous les octets depuis le bloc précédent et est chaîné à la signature précédente, si bien que toute coupe, tout montage ou toute modification rompt la chaîne à cet endroit.",
   footer_link: "thingino-verify",
-  lang_label: "Langue",
+  settings_lang: "Langue",
+  settings_title: "Paramètres",
+  gear_title: "Paramètres",
+  btn_close: "Fermer",
+  setting_help_label: "Affichez les astuces d'aide : survolez n'importe quel contrôle pour un conseil (ou utilisez le bouton ?).",
 
   // verdicts
   v_verifying: "vérification de {name} ...",
@@ -67,5 +74,7 @@ I18N.add("fr", {
   help_verify: "Exécute rverify sur le fichier sélectionné. Verdicts possibles : vérifié / cohérent (sans clé) / falsifié / non signé.",
   help_sample_good: "Un clip de test inclus, signé avec la clé TEST publique. Montre à quoi ressemble une vérification réussie.",
   help_sample_bad: "Le même clip de test avec un octet de vidéo modifié. Montre comment la chaîne de hachage localise précisément la falsification.",
+  help_settings: "Paramètres : langue de l'interface et astuces d'aide.",
+  help_preview: "Lit le fichier sélectionné directement depuis la mémoire de votre navigateur, pour que vous puissiez voir ce que vous venez de vérifier. Rien n'est envoyé.",
   help_report: "La sortie brute de rverify : une ligne par bloc de signature avec la taille de sa plage et son verdict, ainsi que les codes temporels intégrés.",
 });

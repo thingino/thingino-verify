@@ -31,11 +31,18 @@ I18N.add("es", {
   sample_bad_title: "El mismo clip con un byte de vídeo alterado",
 
   // report
+  preview_title: "Vista previa",
+  preview_note: "se reproduce localmente, nunca se sube",
+  preview_unplayable: "Sin vista previa: el navegador no puede decodificar este archivo. La verificación no se ve afectada.",
   report_title: "Informe",
   report_note: "salida literal de <code>rverify</code>",
   log_intro: "Elige un archivo para verificar. Cada grabación escrita por el grabador de raptor lleva una cadena de hashes Ed25519: cada bloque de firma cubre todos los bytes desde el bloque anterior y está encadenado a la firma anterior, así que cualquier corte, empalme o edición rompe la cadena en ese punto.",
   footer_link: "thingino-verify",
-  lang_label: "Idioma",
+  settings_lang: "Idioma",
+  settings_title: "Ajustes",
+  gear_title: "Ajustes",
+  btn_close: "Cerrar",
+  setting_help_label: "Muestra sugerencias de ayuda: pasa el cursor sobre cualquier control para ver un consejo (o usa el botón ?).",
 
   // verdicts
   v_verifying: "verificando {name} ...",
@@ -67,5 +74,7 @@ I18N.add("es", {
   help_verify: "Ejecuta rverify en el archivo seleccionado. Veredictos posibles: verificado / coherente (sin clave) / manipulado / sin firmar.",
   help_sample_good: "Un clip de prueba incluido, firmado con la clave TEST pública. Muestra cómo es una verificación correcta.",
   help_sample_bad: "El mismo clip de prueba con un byte de vídeo alterado. Muestra cómo la cadena de hashes localiza la manipulación.",
+  help_settings: "Ajustes: idioma de la interfaz y sugerencias de ayuda.",
+  help_preview: "Reproduce el archivo seleccionado directamente desde la memoria de tu navegador, para que puedas ver lo que acabas de verificar. No se sube nada.",
   help_report: "La salida literal de rverify: una línea por bloque de firma con el tamaño de su tramo y su veredicto, además de los códigos de tiempo incrustados.",
 });
