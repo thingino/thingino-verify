@@ -36,7 +36,11 @@ def check(cond, msg, detail=""):
 
 class Tab:
     def __init__(self, port, lang=None):
-        args = [CHROME, "--headless=new", "--no-sandbox", "--disable-gpu", "--hide-scrollbars", "--remote-allow-origins=*",
+        # A private profile per tab: chromium otherwise shares the default
+        # one, and an explicit language saved by an earlier phase would
+        # (correctly) outrank the browser language a later phase is testing.
+        args = [CHROME, "--headless=new", "--no-sandbox", "--disable-gpu", "--hide-scrollbars",
+                "--remote-allow-origins=*", "--user-data-dir=" + tempfile.mkdtemp(prefix="verify-ui-prof-"),
                 f"--remote-debugging-port={port}", "--window-size=760,1100", "about:blank"]
         if lang:
             args.insert(1, f"--lang={lang}")
@@ -62,10 +66,24 @@ class Tab:
             if m.get("id") == self.i:
                 return m
 
+    def wait(self, expr, timeout=30):
+        """Poll until expr is truthy. Fixed sleeps are why browser suites
+        go flaky: over a network the scripts simply take longer."""
+        end = time.time() + timeout
+        while time.time() < end:
+            try:
+                if self.js(expr):
+                    return True
+            except Exception:
+                pass
+            time.sleep(0.25)
+        return False
+
     def goto(self, url):
         self.send("Page.enable")
         self.send("Page.navigate", url=url)
-        time.sleep(2.5)
+        # ready = the runtime loaded, the dicts registered and app.js ran
+        self.wait("!!window.I18N && !!document.querySelector('#lang-slot select')")
 
     def js(self, expr):
         r = self.send("Runtime.evaluate", expression=expr, returnByValue=True, awaitPromise=True)
@@ -129,7 +147,7 @@ print("=== 4a. preview is off by default ===")
 check(t.js("document.getElementById('setting-preview').checked") is False, "preview switch starts off",
       t.js("document.getElementById('setting-preview').checked"))
 t.js("document.getElementById('btn-sample-good').click()")
-time.sleep(6)
+t.wait("document.getElementById('verdict').textContent.trim().length > 0")
 check(t.js("document.getElementById('preview-card').classList.contains('d-none')"),
       "no player for a verified file while preview is off")
 check("verified" in (t.js("document.getElementById('verdict').textContent") or "").lower(),
@@ -140,7 +158,7 @@ t.js("document.getElementById('settings-btn').click()")
 time.sleep(0.3)
 check(t.js("document.getElementById('setting-preview').checked") is False, "dialog reflects the off state")
 t.js("var c=document.getElementById('setting-preview'); c.checked=true; c.dispatchEvent(new Event('change'));")
-time.sleep(1.5)
+t.wait("var v=document.getElementById('preview-video'); v.readyState>0 && v.videoWidth>0")
 t.js("document.getElementById('settings-close').click()")
 time.sleep(0.3)
 verdict = t.js("document.getElementById('verdict').textContent")
@@ -155,7 +173,7 @@ t.shot("render-verified.png")
 
 print("=== 5. tampered sample: verdict TAMPERED and playback withheld ===")
 t.js("document.getElementById('btn-sample-bad').click()")
-time.sleep(6)
+t.wait("/tamper/i.test(document.getElementById('verdict').textContent)")
 v2 = t.js("document.getElementById('verdict').textContent")
 check("tamper" in (v2 or "").lower(), "tampered verdict shown", v2)
 check(not t.js("document.getElementById('preview-blocked').classList.contains('d-none')"),
@@ -171,9 +189,28 @@ t.shot("render-blocked.png")
 
 print("=== 6. play-anyway override reveals it ===")
 t.js("document.getElementById('btn-play-anyway').click()")
-time.sleep(0.5)
+t.wait("document.getElementById('preview-blocked').classList.contains('d-none')")
 check(t.js("document.getElementById('preview-blocked').classList.contains('d-none')"), "warning dismissed")
-check(not t.js("document.getElementById('preview-media').classList.contains('d-none')"), "player revealed")
+# Overriding reveals the player when the browser can decode the file, and
+# the honest "cannot decode" note when it cannot (Chromium refuses this
+# sample outright). Either is correct; a dead player or a lingering
+# warning is not.
+# Let the decode attempt settle before judging: asserting during the
+# async transition is what makes browser suites flaky. Then check the
+# property that actually matters -- a player that cannot play is never
+# left on screen -- rather than a snapshot of class names.
+t.wait("var v=document.getElementById('preview-video'); !!v.error || v.readyState>0")
+time.sleep(0.5)
+broken = bool(t.js("!!document.getElementById('preview-video').error"))
+player_visible = bool(t.js("!!document.getElementById('preview-video').offsetParent || "
+                           "!!document.getElementById('preview-image').offsetParent"))
+note_visible = bool(t.js("!!document.getElementById('preview-unplayable').offsetParent"))
+if broken:
+    check(not player_visible, "no dead player left on screen when the file cannot decode",
+          f"player_visible={player_visible}")
+    check(note_visible, "cannot-decode note explains the empty preview")
+else:
+    check(player_visible, "override reveals the player for a decodable file")
 
 print("=== 6b. the setting persists, and off means off again ===")
 check(t.js("localStorage.getItem('verify.preview')") == "1", "enabled state persisted")
@@ -181,7 +218,7 @@ t.js("localStorage.setItem('verify.preview','0')")
 t.goto(URL)
 check(t.js("document.getElementById('setting-preview').checked") is False, "off state restored after reload")
 t.js("document.getElementById('btn-sample-good').click()")
-time.sleep(6)
+t.wait("document.getElementById('verdict').textContent.trim().length > 0")
 check(t.js("document.getElementById('preview-card').classList.contains('d-none')"),
       "still no player after a reload with the setting off")
 
