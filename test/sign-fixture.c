@@ -101,6 +101,30 @@ int main(int argc, char **argv)
 
 	uint8_t prev_sig[64] = {0};
 	if (cut > 0 && cut < (size_t)len) {
+		/* The genesis box lands between the head boxes and mdat, so every
+		 * sample offset in moov shifts by its size. Patch stco/co64 before
+		 * hashing, or the fixture verifies but will not decode -- and this
+		 * clip is also the page's playable sample. A plain scan is enough
+		 * for a generated single-track testsrc clip. */
+		for (size_t i = 0; i + 16 <= cut; i++) {
+			int is_co64 = !memcmp(data + i, "co64", 4);
+			if (!is_co64 && memcmp(data + i, "stco", 4))
+				continue;
+			uint32_t n = ((uint32_t)data[i + 8] << 24) | ((uint32_t)data[i + 9] << 16) |
+				     ((uint32_t)data[i + 10] << 8) | (uint32_t)data[i + 11];
+			size_t w = is_co64 ? 8 : 4, off = i + 12;
+			if (n > (cut - off) / w)
+				continue;
+			for (uint32_t e = 0; e < n; e++) {
+				uint8_t *p = data + off + (size_t)e * w;
+				uint64_t v = 0;
+				for (size_t b = 0; b < w; b++)
+					v = (v << 8) | p[b];
+				v += BOX_SIZE;
+				for (size_t b = 0; b < w; b++)
+					p[w - 1 - b] = (uint8_t)(v >> (8 * b));
+			}
+		}
 		fwrite(data, 1, cut, out);
 		emit_box(out, data, cut, 0, sk, pk, prev_sig); /* genesis */
 		fwrite(data + cut, 1, len - cut, out);
