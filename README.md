@@ -76,7 +76,13 @@ records the exact revisions and emcc version; the footer shows them.
 A picked file is also played back locally: the page builds a `blob:`
 URL so a recording plays (or a snapshot displays) in the browser
 without leaving it, and hides the player with a note when the browser
-cannot decode the file. Language and the help-hint toggle live behind
+cannot decode the file. Tampering does not make a file unplayable —
+only payload bytes change, so the container stays valid and H.264
+renders the surrounding frames with artifacts — so a file that fails
+verification has its player withheld behind a warning, with an
+explicit "play anyway" override. That applies to a failed verdict
+only: an unsigned file is not altered, merely not from a raptor
+camera, and plays normally. Language and the help-hint toggle live behind
 the gear in a settings dialog, matching webflash and the image builder.
 
 The UI is translated into 15 languages, auto-detected from the browser

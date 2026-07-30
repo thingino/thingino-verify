@@ -34,6 +34,8 @@ I18N.add("pl", {
   preview_title: "Podgląd",
   preview_note: "odtwarzany lokalnie, nigdy nie wysyłany",
   preview_unplayable: "Brak podglądu: przeglądarka nie potrafi zdekodować tego pliku. Nie ma to wpływu na weryfikację.",
+  preview_blocked: "Odtwarzanie zablokowane: ten plik nie przeszedł weryfikacji, więc to, co pokazuje, nie jest tym, co nagrała kamera.",
+  btn_play_anyway: "Odtwórz mimo to",
   report_title: "Raport",
   report_note: "dosłowne wyjście <code>rverify</code>",
   log_intro: "Wybierz plik do weryfikacji. Każde nagranie zapisane przez rejestrator raptor zawiera łańcuch skrótów Ed25519: każdy blok podpisu obejmuje wszystkie bajty od poprzedniego bloku i jest powiązany z poprzednim podpisem, więc każde wycięcie, wklejenie lub edycja przerywa łańcuch w tym miejscu.",

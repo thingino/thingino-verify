@@ -34,6 +34,8 @@ I18N.add("pt", {
   preview_title: "Pré-visualização",
   preview_note: "reproduzido localmente, nunca enviado",
   preview_unplayable: "Sem pré-visualização: o navegador não consegue decodificar este arquivo. A verificação não é afetada.",
+  preview_blocked: "Reprodução bloqueada: este arquivo não passou na verificação, portanto o que ele mostra não é o que a câmera gravou.",
+  btn_play_anyway: "Reproduzir mesmo assim",
   report_title: "Relatório",
   report_note: "saída literal do <code>rverify</code>",
   log_intro: "Escolha um arquivo para verificar. Toda gravação escrita pelo gravador do raptor carrega uma cadeia de hashes Ed25519: cada caixa de assinatura cobre todos os bytes desde a caixa anterior e está encadeada à assinatura anterior, portanto qualquer corte, emenda ou edição rompe a cadeia nesse ponto.",

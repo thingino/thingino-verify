@@ -34,6 +34,8 @@ I18N.add("fr", {
   preview_title: "Aperçu",
   preview_note: "lecture locale, rien n'est envoyé",
   preview_unplayable: "Pas d'aperçu : le navigateur ne peut pas décoder ce fichier. La vérification n'en est pas affectée.",
+  preview_blocked: "Lecture bloquée : ce fichier n'a pas passé la vérification, donc ce qu'il montre n'est pas ce que la caméra a enregistré.",
+  btn_play_anyway: "Lire quand même",
   report_title: "Rapport",
   report_note: "sortie brute de <code>rverify</code>",
   log_intro: "Choisissez un fichier à vérifier. Chaque enregistrement écrit par l'enregistreur de raptor porte une chaîne de hachage Ed25519 : chaque bloc de signature couvre tous les octets depuis le bloc précédent et est chaîné à la signature précédente, si bien que toute coupe, tout montage ou toute modification rompt la chaîne à cet endroit.",

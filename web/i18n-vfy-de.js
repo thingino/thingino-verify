@@ -34,6 +34,8 @@ I18N.add("de", {
   preview_title: "Vorschau",
   preview_note: "wird lokal abgespielt, nie hochgeladen",
   preview_unplayable: "Keine Vorschau: der Browser kann diese Datei nicht dekodieren. Die Verifizierung ist davon nicht betroffen.",
+  preview_blocked: "Wiedergabe zurückgehalten: diese Datei hat die Verifizierung nicht bestanden, deshalb ist das, was sie zeigt, nicht das, was die Kamera aufgenommen hat.",
+  btn_play_anyway: "Trotzdem abspielen",
   report_title: "Bericht",
   report_note: "unveränderte <code>rverify</code>-Ausgabe",
   log_intro: "Wähle eine Datei zum Verifizieren. Jede Aufnahme, die der Recorder von raptor schreibt, trägt eine Ed25519-Hash-Kette: jede Signatur-Box deckt alle Bytes seit der vorherigen Box ab und ist mit der vorherigen Signatur verkettet, sodass jeder Schnitt, jede Einfügung und jede Bearbeitung die Kette an dieser Stelle bricht.",

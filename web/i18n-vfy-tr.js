@@ -34,6 +34,8 @@ I18N.add("tr", {
   preview_title: "Önizleme",
   preview_note: "yerel olarak oynatılır, hiçbir yere yüklenmez",
   preview_unplayable: "Önizleme yok: tarayıcı bu dosyanın kodunu çözemiyor. Bu, doğrulamayı etkilemez.",
+  preview_blocked: "Oynatma engellendi: bu dosya doğrulamayı geçemedi, dolayısıyla gösterdiği şey kameranın kaydettiği şey değil.",
+  btn_play_anyway: "Yine de oynat",
   report_title: "Rapor",
   report_note: "birebir <code>rverify</code> çıktısı",
   log_intro: "Doğrulanacak bir dosya seçin. raptor'un kaydedicisi tarafından yazılan her kayıt bir Ed25519 hash zinciri taşır: her imza kutusu önceki kutudan bu yana gelen tüm baytları kapsar ve önceki imzaya zincirlenir, bu yüzden herhangi bir kesme, ekleme veya düzenleme zinciri o noktada kırar.",

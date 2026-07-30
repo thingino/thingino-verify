@@ -50,6 +50,8 @@ function showPreview(f) {
 	video.classList.add("d-none");
 	image.classList.add("d-none");
 
+	unblockPreview();
+
 	const name = (f.name || "").toLowerCase();
 	const isImage = /\.jpe?g$/.test(name);
 	const type = isImage ? "image/jpeg" : "video/mp4";
@@ -209,6 +211,23 @@ function clearVerdict() {
 	verdictEl.innerHTML = "";
 }
 
+/* A tampered file still decodes: only payload bytes changed, so the
+ * container and its index stay valid and H.264 renders the surrounding
+ * frames with artifacts. Playing it anyway would undercut the verdict,
+ * so the player is withheld until the viewer explicitly asks for it. */
+function blockPreview() {
+	const card = $("preview-card");
+	if (card.classList.contains("d-none")) return; // nothing decodable anyway
+	$("preview-video").pause();
+	$("preview-media").classList.add("d-none");
+	$("preview-blocked").classList.remove("d-none");
+}
+
+function unblockPreview() {
+	$("preview-blocked").classList.add("d-none");
+	$("preview-media").classList.remove("d-none");
+}
+
 function showVerdict(kind, title, detail) {
 	const icons = { success: "bi-shield-check", warning: "bi-exclamation-triangle", danger: "bi-shield-x", secondary: "bi-question-circle" };
 	verdictEl.innerHTML =
@@ -239,12 +258,15 @@ function render(code, lines) {
 	} else if (code === 1) {
 		const fail = (text.match(/^.*(FAIL[^\n]*)$/m) || [])[1] || "";
 		showVerdict("danger", I18N.t("v_tampered"), esc(fail) + (fpNote ? "<br>" + fpNote : ""));
+		blockPreview();
 	} else if (/no raptor signature boxes/.test(text)) {
 		showVerdict("warning", I18N.t("v_unsigned"), I18N.t("v_unsigned_d"));
 	} else {
 		showVerdict("secondary", I18N.t("v_unknown"), esc(lines.filter((l) => l.t === "err").map((l) => l.s).join(" ") || I18N.t("v_unreadable")));
 	}
 }
+
+$("btn-play-anyway").addEventListener("click", unblockPreview);
 
 /* ---------- samples ---------- */
 

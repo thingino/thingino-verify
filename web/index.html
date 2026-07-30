@@ -140,8 +140,16 @@
       <span class="small muted ms-auto" data-i18n="preview_note">played locally, never uploaded</span>
     </div>
     <div class="card-body p-2" data-help="help_preview">
-      <video id="preview-video" class="w-100 d-none" controls preload="metadata" playsinline></video>
-      <img id="preview-image" class="w-100 d-none" alt="">
+      <div id="preview-media">
+        <video id="preview-video" class="w-100 d-none" controls preload="metadata" playsinline></video>
+        <img id="preview-image" class="w-100 d-none" alt="">
+      </div>
+      <div id="preview-blocked" class="alert alert-danger py-2 mb-0 d-none">
+        <i class="bi bi-shield-x me-1"></i><span data-i18n="preview_blocked">Playback withheld: this file failed verification, so what it shows is not what the camera recorded.</span>
+        <div class="mt-2">
+          <button id="btn-play-anyway" class="btn btn-outline-danger btn-sm" data-i18n="btn_play_anyway">Play anyway</button>
+        </div>
+      </div>
     </div>
   </div>
 

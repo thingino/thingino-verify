@@ -34,6 +34,8 @@ I18N.add("it", {
   preview_title: "Anteprima",
   preview_note: "riprodotto in locale, mai caricato",
   preview_unplayable: "Nessuna anteprima: il browser non riesce a decodificare questo file. La verifica non ne è influenzata.",
+  preview_blocked: "Riproduzione bloccata: questo file non ha superato la verifica, quindi ciò che mostra non è ciò che ha registrato la telecamera.",
+  btn_play_anyway: "Riproduci comunque",
   report_title: "Rapporto",
   report_note: "output letterale di <code>rverify</code>",
   log_intro: "Scegli un file da verificare. Ogni registrazione scritta dal registratore di raptor porta una catena di hash Ed25519: ogni blocco di firma copre tutti i byte dal blocco precedente ed è concatenato alla firma precedente, quindi qualsiasi taglio, giunzione o modifica rompe la catena in quel punto.",

@@ -34,6 +34,8 @@ I18N.add("nl", {
   preview_title: "Voorbeeld",
   preview_note: "lokaal afgespeeld, nooit geüpload",
   preview_unplayable: "Geen voorbeeld: de browser kan dit bestand niet decoderen. Dat heeft geen invloed op de verificatie.",
+  preview_blocked: "Afspelen geblokkeerd: dit bestand is niet door de verificatie gekomen, dus wat het toont is niet wat de camera heeft opgenomen.",
+  btn_play_anyway: "Toch afspelen",
   report_title: "Rapport",
   report_note: "onbewerkte uitvoer van <code>rverify</code>",
   log_intro: "Kies een bestand om te verifiëren. Elke opname die de recorder van raptor schrijft, bevat een Ed25519-hashketen: elke signatuurbox dekt alle bytes sinds de vorige box en is geketend aan de vorige signatuur, dus elke knip, montage of wijziging verbreekt de keten op dat punt.",

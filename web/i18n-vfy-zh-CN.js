@@ -34,6 +34,8 @@ I18N.add("zh-CN", {
   preview_title: "预览",
   preview_note: "在本地播放，绝不上传",
   preview_unplayable: "无法预览：浏览器无法解码此文件。这不影响验证结果。",
+  preview_blocked: "已阻止播放：此文件未通过验证，因此它显示的内容并不是摄像头实际录下的内容。",
+  btn_play_anyway: "仍要播放",
   report_title: "报告",
   report_note: "<code>rverify</code> 的原始输出",
   log_intro: "请选择要验证的文件。raptor 录制器写出的每个录像都带有 Ed25519 哈希链：每个签名 box 覆盖自上一个 box 以来的全部字节，并与上一个签名相连，因此任何剪切、拼接或编辑都会在该处断开哈希链。",

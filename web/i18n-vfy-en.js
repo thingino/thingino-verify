@@ -35,6 +35,8 @@ I18N.add("en", {
   preview_title: "Preview",
   preview_note: "played locally, never uploaded",
   preview_unplayable: "No preview: the browser cannot decode this file. Verification is unaffected.",
+  preview_blocked: "Playback withheld: this file failed verification, so what it shows is not what the camera recorded.",
+  btn_play_anyway: "Play anyway",
   report_title: "Report",
   report_note: "verbatim <code>rverify</code> output",
   log_intro: "Pick a file to verify. Every recording written by raptor's recorder carries an Ed25519 hash chain: each signature box covers all bytes since the previous box, chained to the previous signature, so any cut, splice, or edit breaks the chain at that point.",

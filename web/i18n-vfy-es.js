@@ -34,6 +34,8 @@ I18N.add("es", {
   preview_title: "Vista previa",
   preview_note: "se reproduce localmente, nunca se sube",
   preview_unplayable: "Sin vista previa: el navegador no puede decodificar este archivo. La verificación no se ve afectada.",
+  preview_blocked: "Reproducción bloqueada: este archivo no ha pasado la verificación, así que lo que muestra no es lo que grabó la cámara.",
+  btn_play_anyway: "Reproducir igualmente",
   report_title: "Informe",
   report_note: "salida literal de <code>rverify</code>",
   log_intro: "Elige un archivo para verificar. Cada grabación escrita por el grabador de raptor lleva una cadena de hashes Ed25519: cada bloque de firma cubre todos los bytes desde el bloque anterior y está encadenado a la firma anterior, así que cualquier corte, empalme o edición rompe la cadena en ese punto.",
