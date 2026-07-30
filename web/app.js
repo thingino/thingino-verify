@@ -109,14 +109,14 @@ async function verify() {
 	if (!currentFile || running) return;
 	const k = keyHex();
 	if (k === null) {
-		showVerdict("warning", "Key looks wrong", "An Ed25519 public key is 64 hex characters.");
+		showVerdict("warning", I18N.t("v_key_wrong"), I18N.t("v_key_wrong_d"));
 		return;
 	}
 	running = true;
 	btnVerify.disabled = true;
 	$("busy").classList.remove("d-none");
 	clearVerdict();
-	setLog([{ t: "dim", s: "verifying " + currentFile.name + " ..." }]);
+	setLog([{ t: "dim", s: I18N.t("v_verifying", { name: currentFile.name }) }]);
 
 	const buf = currentFile.buffer ?? (await currentFile.arrayBuffer());
 	worker.postMessage({ buf, name: currentFile.name, key: k, timecodes: true }, [buf]);
@@ -174,25 +174,22 @@ function render(code, lines) {
 	setLog(lines);
 	const text = lines.map((l) => l.s).join("\n");
 	const fp = (text.match(/key fingerprint: ([0-9a-f]+)/) || [])[1];
-	const fpNote = fp ? "Signing key fingerprint: <code>" + esc(fp) + "</code>" : "";
+	const fpNote = fp ? I18N.t("v_fp") + " <code>" + esc(fp) + "</code>" : "";
 
 	if (code === 0 && /RESULT: VERIFIED/.test(text)) {
-		const closed = /cleanly closed/.test(text) ? " and cleanly closed" : "";
-		showVerdict("success", "Signed and verified" + closed, fpNote);
+		const closed = /cleanly closed/.test(text);
+		showVerdict("success", I18N.t(closed ? "v_signed_closed" : "v_signed"), fpNote);
 	} else if (code === 0 && /RESULT: CONSISTENT/.test(text)) {
-		showVerdict("success", "Hash chain intact - signer not verified",
-			"Every span hashes correctly, but no key was supplied. Paste the camera's public key to verify who signed it. " + fpNote);
+		showVerdict("success", I18N.t("v_consistent"), I18N.t("v_consistent_d") + " " + fpNote);
 	} else if (code === 0) {
-		showVerdict("success", "Verified clean", fpNote);
+		showVerdict("success", I18N.t("v_clean"), fpNote);
 	} else if (code === 1) {
 		const fail = (text.match(/^.*(FAIL[^\n]*)$/m) || [])[1] || "";
-		showVerdict("danger", "TAMPERED - verification failed",
-			esc(fail) + (fpNote ? "<br>" + fpNote : ""));
+		showVerdict("danger", I18N.t("v_tampered"), esc(fail) + (fpNote ? "<br>" + fpNote : ""));
 	} else if (/no raptor signature boxes/.test(text)) {
-		showVerdict("warning", "No signatures in this file",
-			"This file was not written by raptor's signing recorder (or the signature boxes were stripped).");
+		showVerdict("warning", I18N.t("v_unsigned"), I18N.t("v_unsigned_d"));
 	} else {
-		showVerdict("secondary", "Could not verify", esc(lines.filter((l) => l.t === "err").map((l) => l.s).join(" ") || "Unreadable file."));
+		showVerdict("secondary", I18N.t("v_unknown"), esc(lines.filter((l) => l.t === "err").map((l) => l.s).join(" ") || I18N.t("v_unreadable")));
 	}
 }
 
@@ -211,7 +208,7 @@ async function loadSample(path, name) {
 		setFile({ name, buffer: file, size: file.byteLength });
 		verify();
 	} catch (e) {
-		showVerdict("warning", "Could not load the sample", esc(String(e)));
+		showVerdict("warning", I18N.t("v_sample_fail"), esc(String(e)));
 	}
 }
 
@@ -238,8 +235,7 @@ keyFileInput.addEventListener("change", async () => {
 		hex = [...bytes].map((b) => b.toString(16).padStart(2, "0")).join("");
 	}
 	if (!hex) {
-		showVerdict("warning", "Could not read a key from that file",
-			"Expected 64 hex characters or a raw 32-byte Ed25519 public key.");
+		showVerdict("warning", I18N.t("v_keyfile_fail"), I18N.t("v_keyfile_fail_d"));
 		return;
 	}
 	pubkeyEl.value = hex;
@@ -249,19 +245,6 @@ keyFileInput.addEventListener("change", async () => {
 });
 
 /* ---------- help balloons (matches webflash / image builder) ---------- */
-
-const HELP = {
-	help_help: "Toggle help mode: hover any control to see what it does.",
-	help_local: "The file is read and verified entirely in your browser. Nothing is uploaded anywhere.",
-	help_engine: "The raptor commit the verification engine (rverify, compiled to WebAssembly) was built from.",
-	help_drop: "Drop a raptor-signed .mp4 recording or .jpg snapshot here, or click to pick one. The file stays on your machine.",
-	help_key: "The camera's Ed25519 public key, 64 hex characters. With it the report proves WHO signed the file; without it only that the file is internally consistent.",
-	help_keyfile: "Load the public key from a file instead of pasting it: a text file containing the hex key, or a raw 32-byte key file.",
-	help_verify: "Run rverify on the selected file. Exit verdicts: verified / consistent (no key) / tampered / unsigned.",
-	help_sample_good: "A bundled test clip signed with the public TEST key. Shows what a clean verification looks like.",
-	help_sample_bad: "The same test clip with one byte of video flipped. Shows how the hash chain pinpoints tampering.",
-	help_report: "The verbatim rverify output: one line per signature box with its span size and verdict, plus embedded timecodes.",
-};
 
 let helpMode = localStorage.getItem("verify.help") === "1";
 let _helpBalloon = null;
@@ -279,7 +262,8 @@ function showHelpBalloon(el) {
 		document.body.appendChild(_helpBalloon);
 	}
 	const key = el.getAttribute("data-help");
-	_helpBalloon.textContent = HELP[key] || key;
+	// data-help holds an i18n key; resolve it (fall back to the raw value).
+	_helpBalloon.textContent = window.I18N ? I18N.t(key) : key;
 	_helpBalloon.classList.add("show");
 	const r = el.getBoundingClientRect();
 	const bw = _helpBalloon.offsetWidth, bh = _helpBalloon.offsetHeight;
@@ -330,6 +314,20 @@ document.addEventListener("mousemove", (e) => {
 	} else if (_helpHover) {
 		hideHelpBalloon();
 	}
+});
+
+/* ---------- i18n ---------- */
+
+I18N.apply();
+I18N.selector("lang-slot");
+// aria-label has no data-i18n-* hook in the shared runtime; set it here
+// so screen readers get the picker's label in the chosen language too.
+dropzone.setAttribute("aria-label", I18N.t("drop_aria"));
+applyHelpMode(); // apply() just (re-)set titles; re-suppress them if help is on
+window.addEventListener("i18nchange", () => {
+	I18N.apply();
+	dropzone.setAttribute("aria-label", I18N.t("drop_aria"));
+	applyHelpMode(); // titles were just re-set; re-hide them if help mode is on
 });
 
 /* ---------- engine badge ---------- */

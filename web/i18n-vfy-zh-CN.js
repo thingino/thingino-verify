@@ -1,0 +1,71 @@
+// Simplified Chinese (zh-CN) strings for the verifier: keys mirror i18n-vfy-en.js.
+I18N.add("zh-CN", {
+  // header
+  page_title: "thingino · 媒体验证器",
+  header_full: " Thingino 媒体验证器",
+  header_short: " 媒体验证器",
+  badge_local: "100% 本地",
+  local_title: "文件在本地读取并验证，不会上传任何内容。",
+  engine_title: "rverify 构建版本",
+  help_title: "开启或关闭帮助气泡",
+
+  // file picker
+  drop_aria: "选择要验证的文件",
+  drop_title: "将录像拖到此处，或点击选择",
+  drop_text: "将由 raptor 签名的 <strong>.mp4</strong> 录像或 <strong>.jpg</strong> 快照拖到此处，<br>或点击选择文件",
+
+  // public key
+  key_label: "摄像头公钥",
+  key_optional: "（可选）",
+  key_ph: "Ed25519 公钥，64 个 hex 字符",
+  keyfile_title: "从文件加载密钥",
+  key_note: "没有密钥时只校验哈希链的完整性，无法确认是谁签名的。",
+  key_fp: "密钥指纹",
+
+  // actions
+  verify_btn: "验证",
+  try_sample: "试试示例：",
+  sample_good: "已签名",
+  sample_good_title: "使用内置测试密钥签名的测试片段",
+  sample_bad: "被篡改",
+  sample_bad_title: "同一片段，但视频中有一个字节被改动",
+
+  // report
+  report_title: "报告",
+  report_note: "<code>rverify</code> 的原始输出",
+  log_intro: "请选择要验证的文件。raptor 录制器写出的每个录像都带有 Ed25519 哈希链：每个签名 box 覆盖自上一个 box 以来的全部字节，并与上一个签名相连，因此任何剪切、拼接或编辑都会在该处断开哈希链。",
+  footer_link: "thingino-verify",
+  lang_label: "语言",
+
+  // verdicts
+  v_verifying: "正在验证 {name} …",
+  v_key_wrong: "密钥格式有误",
+  v_key_wrong_d: "Ed25519 公钥应为 64 个 hex 字符。",
+  v_signed: "已签名并通过验证",
+  v_signed_closed: "已签名并通过验证，且已正常闭合",
+  v_consistent: "哈希链完整 - 签名者未验证",
+  v_consistent_d: "每个字节区段的哈希都正确，但未提供密钥。粘贴摄像头公钥即可验证是谁签名的。",
+  v_clean: "验证通过，未发现篡改",
+  v_tampered: "已遭篡改 - 验证失败",
+  v_unsigned: "此文件中没有任何签名",
+  v_unsigned_d: "该文件不是由 raptor 的签名录制器写出的（或者签名 box 已被剥除）。",
+  v_unknown: "无法验证",
+  v_unreadable: "文件无法读取。",
+  v_fp: "签名密钥指纹：",
+  v_sample_fail: "无法加载示例",
+  v_keyfile_fail: "无法从该文件中读取密钥",
+  v_keyfile_fail_d: "需要 64 个 hex 字符，或一个 32 字节的原始 Ed25519 公钥文件。",
+
+  // help balloons (data-help keys)
+  help_help: "切换帮助模式：将鼠标悬停在任意控件上即可查看其作用。",
+  help_lang: "切换界面语言（自动从你的浏览器检测）。",
+  help_local: "文件完全在你的浏览器中读取和验证，不会上传到任何地方。",
+  help_engine: "验证引擎（rverify，编译为 WebAssembly）所基于的 raptor 提交。",
+  help_drop: "将由 raptor 签名的 .mp4 录像或 .jpg 快照拖到此处，或点击选择一个。文件始终留在你的设备上。",
+  help_key: "摄像头的 Ed25519 公钥，64 个 hex 字符。有了它，报告就能证明是谁签名的；没有它，只能证明文件内部自相一致。",
+  help_keyfile: "从文件加载公钥，无需手动粘贴：可以是包含 hex 密钥的文本文件，或 32 字节的原始密钥文件。",
+  help_verify: "对所选文件运行 rverify。退出结论：已验证 / 一致（无密钥）/ 已篡改 / 未签名。",
+  help_sample_good: "内置的测试片段，使用公开的 TEST 密钥签名。展示验证通过时的样子。",
+  help_sample_bad: "同一测试片段，但视频中有一个字节被改动。展示哈希链如何精确定位篡改位置。",
+  help_report: "rverify 的原始输出：每个签名 box 占一行，显示其区段大小和结论，并附带内嵌的时间码。",
+});

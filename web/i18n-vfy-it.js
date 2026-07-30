@@ -1,0 +1,71 @@
+// Italian strings for the verifier: keys mirror i18n-vfy-en.js.
+I18N.add("it", {
+  // header
+  page_title: "thingino · Verificatore di Media",
+  header_full: " Verificatore di Media Thingino",
+  header_short: " Verificatore di Media",
+  badge_local: "100% locale",
+  local_title: "Il file viene letto e verificato in locale; non viene caricato nulla.",
+  engine_title: "compilazione di rverify",
+  help_title: "Attiva o disattiva i fumetti di aiuto",
+
+  // file picker
+  drop_aria: "Scegli un file da verificare",
+  drop_title: "Trascina qui una registrazione, o fai clic per scegliere",
+  drop_text: "Trascina qui una registrazione <strong>.mp4</strong> o un'istantanea <strong>.jpg</strong> firmate da raptor,<br>o fai clic per scegliere un file",
+
+  // public key
+  key_label: "Chiave pubblica della telecamera",
+  key_optional: "(opzionale)",
+  key_ph: "Chiave pubblica Ed25519, 64 caratteri hex",
+  keyfile_title: "Carica la chiave da un file",
+  key_note: "Senza una chiave viene controllata solo l'integrità della catena di hash, non chi ha firmato.",
+  key_fp: "impronta della chiave",
+
+  // actions
+  verify_btn: "Verifica",
+  try_sample: "Prova un esempio:",
+  sample_good: "firmato",
+  sample_good_title: "Un clip di prova firmato con la chiave di test inclusa",
+  sample_bad: "manomesso",
+  sample_bad_title: "Lo stesso clip con un byte di video alterato",
+
+  // report
+  report_title: "Rapporto",
+  report_note: "output letterale di <code>rverify</code>",
+  log_intro: "Scegli un file da verificare. Ogni registrazione scritta dal registratore di raptor porta una catena di hash Ed25519: ogni blocco di firma copre tutti i byte dal blocco precedente ed è concatenato alla firma precedente, quindi qualsiasi taglio, giunzione o modifica rompe la catena in quel punto.",
+  footer_link: "thingino-verify",
+  lang_label: "Lingua",
+
+  // verdicts
+  v_verifying: "verifica di {name} ...",
+  v_key_wrong: "La chiave sembra errata",
+  v_key_wrong_d: "Una chiave pubblica Ed25519 ha 64 caratteri hex.",
+  v_signed: "Firmato e verificato",
+  v_signed_closed: "Firmato e verificato, chiuso correttamente",
+  v_consistent: "Catena di hash intatta: firmatario non verificato",
+  v_consistent_d: "Ogni intervallo ha l'hash corretto, ma non è stata fornita alcuna chiave. Incolla la chiave pubblica della telecamera per verificare chi ha firmato.",
+  v_clean: "Verificato, integro",
+  v_tampered: "MANOMESSO: verifica fallita",
+  v_unsigned: "Nessuna firma in questo file",
+  v_unsigned_d: "Questo file non è stato scritto dal registratore con firma di raptor (o i blocchi di firma sono stati rimossi).",
+  v_unknown: "Impossibile verificare",
+  v_unreadable: "File illeggibile.",
+  v_fp: "Impronta della chiave di firma:",
+  v_sample_fail: "Impossibile caricare l'esempio",
+  v_keyfile_fail: "Impossibile leggere una chiave da quel file",
+  v_keyfile_fail_d: "Attesi 64 caratteri hex o una chiave pubblica Ed25519 grezza di 32 byte.",
+
+  // help balloons (data-help keys)
+  help_help: "Attiva la modalità aiuto: passa il cursore su qualsiasi controllo per vedere cosa fa.",
+  help_lang: "Cambia la lingua dell'interfaccia (rilevata automaticamente dal tuo browser).",
+  help_local: "Il file viene letto e verificato interamente nel tuo browser. Non viene caricato da nessuna parte.",
+  help_engine: "Il commit di raptor da cui è stato compilato il motore di verifica (rverify, compilato in WebAssembly).",
+  help_drop: "Trascina qui una registrazione .mp4 o un'istantanea .jpg firmate da raptor, o fai clic per sceglierne una. Il file resta sul tuo computer.",
+  help_key: "La chiave pubblica Ed25519 della telecamera, 64 caratteri hex. Con essa il rapporto dimostra CHI ha firmato il file; senza di essa solo che il file è internamente coerente.",
+  help_keyfile: "Carica la chiave pubblica da un file invece di incollarla: un file di testo con la chiave in hex, o un file di chiave grezza di 32 byte.",
+  help_verify: "Esegue rverify sul file selezionato. Esiti possibili: verificato / coerente (senza chiave) / manomesso / non firmato.",
+  help_sample_good: "Un clip di prova incluso, firmato con la chiave TEST pubblica. Mostra come appare una verifica riuscita.",
+  help_sample_bad: "Lo stesso clip di prova con un byte di video alterato. Mostra come la catena di hash individua con precisione la manomissione.",
+  help_report: "L'output letterale di rverify: una riga per ogni blocco di firma con la dimensione del suo intervallo e il suo esito, più i timecode incorporati.",
+});

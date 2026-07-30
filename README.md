@@ -73,6 +73,14 @@ parity suite before every deploy, so every deployed byte traces to
 public sources through a public build. `web/wasm/build-info.json`
 records the exact revisions and emcc version; the footer shows them.
 
+The UI is translated into 15 languages, auto-detected from the browser
+and switchable in the footer. The runtime (`web/i18n.js`) is the same
+tiny CSP-safe one webflash and the image builder use: no eval, no
+fetch, dictionaries bundled as plain scripts. `web/i18n-vfy-en.js` is
+the source of truth; the other `i18n-vfy-<lang>.js` files mirror its
+keys. Report text is never translated: it stays verbatim `rverify`
+output so it always matches the CLI.
+
 Practical size limit: the file is held in WASM memory about twice
 over (filesystem copy plus the verifier's read buffer), and wasm32
 tops out at 4 GiB, so keep files under roughly 1 GiB. Typical camera
@@ -102,6 +110,18 @@ Builds a native `rverify` from the same sources, generates fixtures
 and asserts the WASM and native builds produce identical output and
 exit codes on five cases: unsigned, consistent (keyless), verified,
 tampered, and wrong key.
+
+```
+./test/i18n.sh
+```
+
+Checks every dictionary against `i18n-vfy-en.js`: it parses, declares
+the language its filename claims, carries exactly the English key set,
+and keeps the pieces translators tend to drop (the `{name}` slot,
+inline `<strong>`/`<code>`, the untranslated footer link). Also asserts
+that every key the page references exists, and that every language the
+runtime advertises actually ships a dictionary. Both suites gate
+deploys in CI.
 
 `web/samples/` holds the same fixtures for the page's "try a sample"
 buttons. The sample key is a fixed, public TEST key; nothing signed

@@ -1,0 +1,71 @@
+// Portuguese strings for the verifier: keys mirror i18n-vfy-en.js.
+I18N.add("pt", {
+  // header
+  page_title: "thingino · Verificador de Mídia",
+  header_full: " Verificador de Mídia Thingino",
+  header_short: " Verificador de Mídia",
+  badge_local: "100% local",
+  local_title: "O arquivo é lido e verificado localmente; nada é enviado.",
+  engine_title: "versão do rverify",
+  help_title: "Alternar balões de ajuda",
+
+  // file picker
+  drop_aria: "Escolha um arquivo para verificar",
+  drop_title: "Solte uma gravação aqui ou clique para escolher",
+  drop_text: "Solte aqui uma gravação <strong>.mp4</strong> ou um instantâneo <strong>.jpg</strong> assinado pelo raptor,<br>ou clique para escolher um arquivo",
+
+  // public key
+  key_label: "Chave pública da câmera",
+  key_optional: "(opcional)",
+  key_ph: "Chave pública Ed25519, 64 caracteres hex",
+  keyfile_title: "Carregar a chave de um arquivo",
+  key_note: "Sem uma chave, verifica-se apenas a integridade da cadeia de hashes, não quem assinou.",
+  key_fp: "impressão da chave",
+
+  // actions
+  verify_btn: "Verificar",
+  try_sample: "Teste um exemplo:",
+  sample_good: "assinado",
+  sample_good_title: "Um clipe de teste assinado com a chave de teste incluída",
+  sample_bad: "adulterado",
+  sample_bad_title: "O mesmo clipe com um byte de vídeo alterado",
+
+  // report
+  report_title: "Relatório",
+  report_note: "saída literal do <code>rverify</code>",
+  log_intro: "Escolha um arquivo para verificar. Toda gravação escrita pelo gravador do raptor carrega uma cadeia de hashes Ed25519: cada caixa de assinatura cobre todos os bytes desde a caixa anterior e está encadeada à assinatura anterior, portanto qualquer corte, emenda ou edição rompe a cadeia nesse ponto.",
+  footer_link: "thingino-verify",
+  lang_label: "Idioma",
+
+  // verdicts
+  v_verifying: "verificando {name} ...",
+  v_key_wrong: "A chave parece incorreta",
+  v_key_wrong_d: "Uma chave pública Ed25519 tem 64 caracteres hex.",
+  v_signed: "Assinado e verificado",
+  v_signed_closed: "Assinado e verificado, encerrado corretamente",
+  v_consistent: "Cadeia de hashes intacta - signatário não verificado",
+  v_consistent_d: "Todos os intervalos têm o hash correto, mas nenhuma chave foi fornecida. Cole a chave pública da câmera para verificar quem assinou.",
+  v_clean: "Verificado sem problemas",
+  v_tampered: "ADULTERADO - falha na verificação",
+  v_unsigned: "Nenhuma assinatura neste arquivo",
+  v_unsigned_d: "Este arquivo não foi escrito pelo gravador assinante do raptor (ou as caixas de assinatura foram removidas).",
+  v_unknown: "Não foi possível verificar",
+  v_unreadable: "Arquivo ilegível.",
+  v_fp: "Impressão digital da chave de assinatura:",
+  v_sample_fail: "Não foi possível carregar o exemplo",
+  v_keyfile_fail: "Não foi possível ler uma chave desse arquivo",
+  v_keyfile_fail_d: "Esperava 64 caracteres hex ou uma chave pública Ed25519 bruta de 32 bytes.",
+
+  // help balloons (data-help keys)
+  help_help: "Alterna o modo de ajuda: passe o cursor sobre qualquer controle para ver o que ele faz.",
+  help_lang: "Troca o idioma da interface (detectado automaticamente do seu navegador).",
+  help_local: "O arquivo é lido e verificado inteiramente no seu navegador. Nada é enviado a lugar algum.",
+  help_engine: "O commit do raptor a partir do qual o motor de verificação (rverify, compilado para WebAssembly) foi construído.",
+  help_drop: "Solte aqui uma gravação .mp4 ou um instantâneo .jpg assinado pelo raptor, ou clique para escolher um. O arquivo permanece na sua máquina.",
+  help_key: "A chave pública Ed25519 da câmera, 64 caracteres hex. Com ela o relatório prova QUEM assinou o arquivo; sem ela, apenas que o arquivo é internamente consistente.",
+  help_keyfile: "Carrega a chave pública de um arquivo em vez de colá-la: um arquivo de texto com a chave em hex ou um arquivo de chave bruta de 32 bytes.",
+  help_verify: "Executa o rverify no arquivo selecionado. Resultados possíveis: verificado / consistente (sem chave) / adulterado / não assinado.",
+  help_sample_good: "Um clipe de teste incluído, assinado com a chave TEST pública. Mostra como é uma verificação sem problemas.",
+  help_sample_bad: "O mesmo clipe de teste com um byte de vídeo alterado. Mostra como a cadeia de hashes localiza com precisão a adulteração.",
+  help_report: "A saída literal do rverify: uma linha por caixa de assinatura, com o tamanho do intervalo coberto e o resultado, além dos códigos de tempo embutidos.",
+});

@@ -1,0 +1,71 @@
+// Spanish strings for the verifier: keys mirror i18n-vfy-en.js.
+I18N.add("es", {
+  // header
+  page_title: "thingino · Verificador de Medios",
+  header_full: " Verificador de Medios Thingino",
+  header_short: " Verificador de Medios",
+  badge_local: "100% local",
+  local_title: "El archivo se lee y se verifica localmente; no se sube nada.",
+  engine_title: "compilación de rverify",
+  help_title: "Activar o desactivar los globos de ayuda",
+
+  // file picker
+  drop_aria: "Elige un archivo para verificar",
+  drop_title: "Suelta aquí una grabación, o haz clic para elegirla",
+  drop_text: "Suelta aquí una grabación <strong>.mp4</strong> o una instantánea <strong>.jpg</strong> firmadas por raptor,<br>o haz clic para elegir un archivo",
+
+  // public key
+  key_label: "Clave pública de la cámara",
+  key_optional: "(opcional)",
+  key_ph: "Clave pública Ed25519, 64 caracteres hex",
+  keyfile_title: "Cargar la clave desde un archivo",
+  key_note: "Sin una clave solo se comprueba la integridad de la cadena de hashes, no quién lo firmó.",
+  key_fp: "huella de clave",
+
+  // actions
+  verify_btn: "Verificar",
+  try_sample: "Prueba un ejemplo:",
+  sample_good: "firmado",
+  sample_good_title: "Un clip de prueba firmado con la clave de prueba incluida",
+  sample_bad: "manipulado",
+  sample_bad_title: "El mismo clip con un byte de vídeo alterado",
+
+  // report
+  report_title: "Informe",
+  report_note: "salida literal de <code>rverify</code>",
+  log_intro: "Elige un archivo para verificar. Cada grabación escrita por el grabador de raptor lleva una cadena de hashes Ed25519: cada bloque de firma cubre todos los bytes desde el bloque anterior y está encadenado a la firma anterior, así que cualquier corte, empalme o edición rompe la cadena en ese punto.",
+  footer_link: "thingino-verify",
+  lang_label: "Idioma",
+
+  // verdicts
+  v_verifying: "verificando {name} ...",
+  v_key_wrong: "La clave parece incorrecta",
+  v_key_wrong_d: "Una clave pública Ed25519 tiene 64 caracteres hex.",
+  v_signed: "Firmado y verificado",
+  v_signed_closed: "Firmado y verificado, cerrado correctamente",
+  v_consistent: "Cadena de hashes intacta: firmante no verificado",
+  v_consistent_d: "Todos los tramos tienen el hash correcto, pero no se aportó ninguna clave. Pega la clave pública de la cámara para verificar quién lo firmó.",
+  v_clean: "Verificado, sin alteraciones",
+  v_tampered: "MANIPULADO: la verificación ha fallado",
+  v_unsigned: "Este archivo no contiene firmas",
+  v_unsigned_d: "Este archivo no lo escribió el grabador con firma de raptor (o se le quitaron los bloques de firma).",
+  v_unknown: "No se pudo verificar",
+  v_unreadable: "Archivo ilegible.",
+  v_fp: "Huella de la clave de firma:",
+  v_sample_fail: "No se pudo cargar el ejemplo",
+  v_keyfile_fail: "No se pudo leer ninguna clave de ese archivo",
+  v_keyfile_fail_d: "Se esperaban 64 caracteres hex o una clave pública Ed25519 en bruto de 32 bytes.",
+
+  // help balloons (data-help keys)
+  help_help: "Activa el modo de ayuda: pasa el cursor sobre cualquier control para ver qué hace.",
+  help_lang: "Cambia el idioma de la interfaz (detectado automáticamente de tu navegador).",
+  help_local: "El archivo se lee y se verifica por completo en tu navegador. No se sube nada a ningún sitio.",
+  help_engine: "El commit de raptor a partir del cual se compiló el motor de verificación (rverify, compilado a WebAssembly).",
+  help_drop: "Suelta aquí una grabación .mp4 o una instantánea .jpg firmadas por raptor, o haz clic para elegir una. El archivo permanece en tu equipo.",
+  help_key: "La clave pública Ed25519 de la cámara, 64 caracteres hex. Con ella el informe demuestra QUIÉN firmó el archivo; sin ella, solo que el archivo es coherente internamente.",
+  help_keyfile: "Carga la clave pública desde un archivo en vez de pegarla: un archivo de texto con la clave en hex, o un archivo de clave en bruto de 32 bytes.",
+  help_verify: "Ejecuta rverify en el archivo seleccionado. Veredictos posibles: verificado / coherente (sin clave) / manipulado / sin firmar.",
+  help_sample_good: "Un clip de prueba incluido, firmado con la clave TEST pública. Muestra cómo es una verificación correcta.",
+  help_sample_bad: "El mismo clip de prueba con un byte de vídeo alterado. Muestra cómo la cadena de hashes localiza la manipulación.",
+  help_report: "La salida literal de rverify: una línea por bloque de firma con el tamaño de su tramo y su veredicto, además de los códigos de tiempo incrustados.",
+});

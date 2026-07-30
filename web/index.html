@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'none'">
-  <title>thingino · Media Verifier</title>
+  <title data-i18n="page_title">thingino · Media Verifier</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link href="vendor/bootstrap.min.css" rel="stylesheet">
@@ -76,17 +76,17 @@
   <div class="card mb-3">
     <div class="card-header d-flex align-items-center gap-2">
       <h2 class="card-title mb-0 fs-5" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;">
-        <i class="bi bi-shield-check me-1"></i><span class="d-none d-sm-inline"> Thingino Media Verifier</span><span class="d-sm-none"> Media Verifier</span>
+        <i class="bi bi-shield-check me-1"></i><span class="d-none d-sm-inline" data-i18n="header_full"> Thingino Media Verifier</span><span class="d-sm-none" data-i18n="header_short"> Media Verifier</span>
       </h2>
-      <span class="badge bg-secondary ms-auto" data-help="help_local" title="The file is read and verified locally; nothing is uploaded.">100% local</span>
-      <a id="engine-badge" class="badge bg-info-subtle text-info border border-info-subtle text-decoration-none d-none" target="_blank" rel="noopener" data-help="help_engine" title="rverify build"></a>
-      <button id="btn-help" class="btn btn-sm btn-outline-secondary py-0 px-1" title="Toggle help balloons" data-help="help_help"><i class="bi bi-question-lg"></i></button>
+      <span class="badge bg-secondary ms-auto" data-help="help_local" data-i18n-title="local_title" data-i18n="badge_local" title="The file is read and verified locally; nothing is uploaded.">100% local</span>
+      <a id="engine-badge" class="badge bg-info-subtle text-info border border-info-subtle text-decoration-none d-none" target="_blank" rel="noopener" data-help="help_engine" data-i18n-title="engine_title" title="rverify build"></a>
+      <button id="btn-help" class="btn btn-sm btn-outline-secondary py-0 px-1" title="Toggle help balloons" data-i18n-title="help_title" data-help="help_help"><i class="bi bi-question-lg"></i></button>
     </div>
 
     <div class="card-body">
-      <div id="dropzone" role="button" tabindex="0" aria-label="Choose a file to verify" data-help="help_drop" title="Drop a recording here, or click to choose">
+      <div id="dropzone" role="button" tabindex="0" aria-label="Choose a file to verify" data-help="help_drop" data-i18n-title="drop_title" title="Drop a recording here, or click to choose">
         <i class="bi bi-file-earmark-play"></i>
-        <div>Drop a raptor-signed <strong>.mp4</strong> recording or <strong>.jpg</strong> snapshot here,<br>or click to choose a file</div>
+        <div data-i18n-html="drop_text">Drop a raptor-signed <strong>.mp4</strong> recording or <strong>.jpg</strong> snapshot here,<br>or click to choose a file</div>
       </div>
       <div class="file-info mt-2 d-none" id="file-info">
         <i class="bi bi-file-earmark-binary me-1"></i><span class="value" id="file-name"></span>
@@ -95,18 +95,18 @@
       <input type="file" id="file-input" accept=".mp4,.mov,.jpg,.jpeg,video/mp4,image/jpeg">
 
       <div class="mt-3">
-        <label for="pubkey" class="form-label small text-secondary mb-1">Camera public key <span class="muted">(optional)</span></label>
+        <label for="pubkey" class="form-label small text-secondary mb-1"><span data-i18n="key_label">Camera public key</span> <span class="muted" data-i18n="key_optional">(optional)</span></label>
         <div class="input-group input-group-sm">
           <input id="pubkey" class="form-control" autocomplete="off" spellcheck="false" data-help="help_key"
-                 placeholder="Ed25519 public key, 64 hex characters">
-          <button class="btn btn-outline-secondary" id="btn-keyfile" data-help="help_keyfile" title="Load the key from a file">
+                 data-i18n-ph="key_ph" placeholder="Ed25519 public key, 64 hex characters">
+          <button class="btn btn-outline-secondary" id="btn-keyfile" data-help="help_keyfile" data-i18n-title="keyfile_title" title="Load the key from a file">
             <i class="bi bi-folder2-open"></i>
           </button>
         </div>
         <input type="file" id="key-file-input" accept=".pub,.txt,.hex,.key,.pem,text/plain">
         <div class="d-flex justify-content-between mt-1">
-          <div class="small muted">Without a key, only hash-chain integrity is checked, not who signed it.</div>
-          <div class="fp-chip d-none" id="key-fp">key fp <b></b></div>
+          <div class="small muted" data-i18n="key_note">Without a key, only hash-chain integrity is checked, not who signed it.</div>
+          <div class="fp-chip d-none" id="key-fp"><span data-i18n="key_fp">key fp</span> <b></b></div>
         </div>
       </div>
     </div>
@@ -114,15 +114,15 @@
     <div class="card-footer">
       <div class="d-flex flex-wrap align-items-center gap-2">
         <button id="btn-verify" class="btn btn-thingino btn-sm" disabled data-help="help_verify">
-          <i class="bi bi-shield-check me-1"></i> Verify
+          <i class="bi bi-shield-check me-1"></i> <span data-i18n="verify_btn">Verify</span>
         </button>
         <span id="busy" class="spinner-border spinner-border-sm text-warning d-none"></span>
-        <span class="small muted ms-auto">Try a sample:</span>
-        <button class="btn btn-outline-success btn-sm" id="btn-sample-good" data-help="help_sample_good" title="A test clip signed with the bundled test key">
-          <i class="bi bi-patch-check me-1"></i> signed
+        <span class="small muted ms-auto" data-i18n="try_sample">Try a sample:</span>
+        <button class="btn btn-outline-success btn-sm" id="btn-sample-good" data-help="help_sample_good" data-i18n-title="sample_good_title" title="A test clip signed with the bundled test key">
+          <i class="bi bi-patch-check me-1"></i> <span data-i18n="sample_good">signed</span>
         </button>
-        <button class="btn btn-outline-danger btn-sm" id="btn-sample-bad" data-help="help_sample_bad" title="The same clip with one byte of video flipped">
-          <i class="bi bi-bandaid me-1"></i> tampered
+        <button class="btn btn-outline-danger btn-sm" id="btn-sample-bad" data-help="help_sample_bad" data-i18n-title="sample_bad_title" title="The same clip with one byte of video flipped">
+          <i class="bi bi-bandaid me-1"></i> <span data-i18n="sample_bad">tampered</span>
         </button>
       </div>
       <div id="verdict" class="mt-2"></div>
@@ -132,19 +132,37 @@
   <!-- Report -->
   <div class="card">
     <div class="card-header d-flex align-items-center gap-2">
-      <h2 class="card-title mb-0 fs-6"><i class="bi bi-terminal me-1"></i> Report</h2>
-      <span class="small muted ms-auto">verbatim <code>rverify</code> output</span>
+      <h2 class="card-title mb-0 fs-6"><i class="bi bi-terminal me-1"></i> <span data-i18n="report_title">Report</span></h2>
+      <span class="small muted ms-auto" data-i18n-html="report_note">verbatim <code>rverify</code> output</span>
     </div>
     <div class="card-body p-2">
-      <div id="log" data-help="help_report"><span class="dim">Pick a file to verify. Every recording written by raptor's recorder carries an Ed25519
-hash chain: each signature box covers all bytes since the previous box, chained to the
-previous signature, so any cut, splice, or edit breaks the chain at that point.</span></div>
+      <div id="log" data-help="help_report"><span class="dim" data-i18n="log_intro">Pick a file to verify.</span></div>
     </div>
   </div>
 
-  <p class="mt-2 small text-center muted" id="version-text"><a href="https://github.com/thingino/thingino-verify" target="_blank" rel="noopener" class="link-secondary text-decoration-none">thingino-verify</a> <span id="version-num"></span></p>
+  <p class="mt-2 small text-center muted" id="version-text"><a href="https://github.com/thingino/thingino-verify" target="_blank" rel="noopener" class="link-secondary text-decoration-none" data-i18n="footer_link">thingino-verify</a> <span id="version-num"></span>
+  <span class="d-flex align-items-center justify-content-center gap-2 mt-2">
+    <label class="small muted mb-0" data-i18n="lang_label">Language</label>
+    <span id="lang-slot" data-help="help_lang"></span>
+  </span></p>
 </div>
 
+<script src="i18n.js"></script>
+<script src="i18n-vfy-en.js"></script>
+<script src="i18n-vfy-es.js"></script>
+<script src="i18n-vfy-fr.js"></script>
+<script src="i18n-vfy-de.js"></script>
+<script src="i18n-vfy-it.js"></script>
+<script src="i18n-vfy-nl.js"></script>
+<script src="i18n-vfy-pl.js"></script>
+<script src="i18n-vfy-pt.js"></script>
+<script src="i18n-vfy-tr.js"></script>
+<script src="i18n-vfy-uk.js"></script>
+<script src="i18n-vfy-ru.js"></script>
+<script src="i18n-vfy-ar.js"></script>
+<script src="i18n-vfy-zh-CN.js"></script>
+<script src="i18n-vfy-ja.js"></script>
+<script src="i18n-vfy-ko.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
