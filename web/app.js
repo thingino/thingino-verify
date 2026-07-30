@@ -36,8 +36,26 @@ function setFile(f) {
  * built from a copy before that transfer. */
 let previewUrl = null;
 let previewBlocked = false;
+let previewEnabled = localStorage.getItem("verify.preview") === "1"; /* opt-in */
+let previewBlob = null;
+let previewIsImage = false;
+let previewName = "";
 
 function showPreview(f) {
+	const name = (f.name || "").toLowerCase();
+	previewIsImage = /\.jpe?g$/.test(name);
+	previewName = f.name || "";
+	// Captured even when the preview is switched off: a sample arrives as an
+	// ArrayBuffer that the worker takes ownership of, so this is the only
+	// chance to copy it and the only way switching on later can still play it.
+	previewBlob = f.buffer
+		? new Blob([f.buffer.slice(0)], { type: previewIsImage ? "image/jpeg" : "video/mp4" })
+		: f;
+	previewBlocked = false;
+	renderPreview();
+}
+
+function renderPreview() {
 	const video = $("preview-video");
 	const image = $("preview-image");
 	const card = $("preview-card");
@@ -50,20 +68,17 @@ function showPreview(f) {
 	image.removeAttribute("src");
 	video.classList.add("d-none");
 	image.classList.add("d-none");
+	$("preview-unplayable").classList.add("d-none");
+	$("preview-blocked").classList.add("d-none");
+	$("preview-media").classList.remove("d-none");
 
-	previewBlocked = false;
-	unblockPreview();
+	if (!previewEnabled || !previewBlob) {
+		card.classList.add("d-none");
+		return;
+	}
 
-	const name = (f.name || "").toLowerCase();
-	const isImage = /\.jpe?g$/.test(name);
-	const type = isImage ? "image/jpeg" : "video/mp4";
-	const blob = f.buffer ? new Blob([f.buffer.slice(0)], { type }) : f;
-	previewUrl = URL.createObjectURL(blob);
-
-	// Undecodable media hides the card rather than showing a broken
-	// player: the bundled test fixtures carry synthetic frames, and a
-	// real file can always be a codec the browser will not take.
-	const el = isImage ? image : video;
+	previewUrl = URL.createObjectURL(previewBlob);
+	const el = previewIsImage ? image : video;
 	el.onerror = () => {
 		// "failed verification" outranks "cannot decode": a tampered file
 		// often will not decode either, and that is the lesser reason.
@@ -74,18 +89,19 @@ function showPreview(f) {
 	el.onloadeddata = el.onload = () => {
 		$("preview-unplayable").classList.add("d-none");
 	};
-	$("preview-unplayable").classList.add("d-none");
 
-	if (isImage) {
+	if (previewIsImage) {
 		image.src = previewUrl;
-		image.alt = f.name;
+		image.alt = previewName;
 		image.classList.remove("d-none");
 	} else {
 		video.src = previewUrl;
 		video.classList.remove("d-none");
 	}
 	card.classList.remove("d-none");
+	if (previewBlocked) blockPreview(); /* verdict arrived before this render */
 }
+
 
 function fmtSize(n) {
 	if (n >= 1 << 30) return (n / (1 << 30)).toFixed(2) + " GiB";
@@ -222,6 +238,7 @@ function clearVerdict() {
  * so the player is withheld until the viewer explicitly asks for it. */
 function blockPreview() {
 	previewBlocked = true;
+	if (!previewEnabled) return; /* nothing shown, nothing to withhold */
 	$("preview-video").pause();
 	$("preview-unplayable").classList.add("d-none");
 	$("preview-media").classList.add("d-none");
@@ -412,6 +429,7 @@ document.addEventListener("mousemove", (e) => {
 
 function openSettings() {
 	$("setting-help").checked = helpMode;
+	$("setting-preview").checked = previewEnabled;
 	$("settings-overlay").classList.remove("d-none");
 }
 function closeSettings() {
@@ -428,6 +446,11 @@ document.addEventListener("keydown", (e) => {
 });
 // Both settings apply live, so there is nothing to save: the language
 // switches inside I18N.selector, and the toggle mirrors the ? button.
+$("setting-preview").addEventListener("change", (e) => {
+	previewEnabled = e.target.checked;
+	localStorage.setItem("verify.preview", previewEnabled ? "1" : "0");
+	renderPreview();
+});
 $("setting-help").addEventListener("change", (e) => {
 	helpMode = e.target.checked;
 	localStorage.setItem("verify.help", helpMode ? "1" : "0");

@@ -125,12 +125,28 @@ t.js("document.getElementById('settings-close').click()")
 time.sleep(0.3)
 check(t.js("document.getElementById('settings-overlay').classList.contains('d-none')"), "Close dismisses the dialog")
 
-print("=== 4. signed sample: verifies and plays ===")
+print("=== 4a. preview is off by default ===")
+check(t.js("document.getElementById('setting-preview').checked") is False, "preview switch starts off",
+      t.js("document.getElementById('setting-preview').checked"))
 t.js("document.getElementById('btn-sample-good').click()")
 time.sleep(6)
+check(t.js("document.getElementById('preview-card').classList.contains('d-none')"),
+      "no player for a verified file while preview is off")
+check("verified" in (t.js("document.getElementById('verdict').textContent") or "").lower(),
+      "verification still runs with preview off")
+
+print("=== 4b. enabling preview in settings plays the already-loaded clip ===")
+t.js("document.getElementById('settings-btn').click()")
+time.sleep(0.3)
+check(t.js("document.getElementById('setting-preview').checked") is False, "dialog reflects the off state")
+t.js("var c=document.getElementById('setting-preview'); c.checked=true; c.dispatchEvent(new Event('change'));")
+time.sleep(1.5)
+t.js("document.getElementById('settings-close').click()")
+time.sleep(0.3)
 verdict = t.js("document.getElementById('verdict').textContent")
 check("verified" in (verdict or "").lower(), "signed sample verdict is verified", verdict)
-check(not t.js("document.getElementById('preview-card').classList.contains('d-none')"), "preview card shown")
+check(not t.js("document.getElementById('preview-card').classList.contains('d-none')"),
+      "player appears once preview is enabled, without re-picking the file")
 check(t.js("var v=document.getElementById('preview-video'); v.readyState>0 && v.videoWidth>0"),
       "video actually decoded (videoWidth>0)",
       t.js("var v=document.getElementById('preview-video'); v.readyState+'/'+v.videoWidth"))
@@ -158,6 +174,16 @@ t.js("document.getElementById('btn-play-anyway').click()")
 time.sleep(0.5)
 check(t.js("document.getElementById('preview-blocked').classList.contains('d-none')"), "warning dismissed")
 check(not t.js("document.getElementById('preview-media').classList.contains('d-none')"), "player revealed")
+
+print("=== 6b. the setting persists, and off means off again ===")
+check(t.js("localStorage.getItem('verify.preview')") == "1", "enabled state persisted")
+t.js("localStorage.setItem('verify.preview','0')")
+t.goto(URL)
+check(t.js("document.getElementById('setting-preview').checked") is False, "off state restored after reload")
+t.js("document.getElementById('btn-sample-good').click()")
+time.sleep(6)
+check(t.js("document.getElementById('preview-card').classList.contains('d-none')"),
+      "still no player after a reload with the setting off")
 
 print("=== 7. no console errors / CSP violations ===")
 errs = t.js("(window.__errs||[]).join(' | ')")

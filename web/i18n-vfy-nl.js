@@ -44,6 +44,7 @@ I18N.add("nl", {
   settings_title: "Instellingen",
   gear_title: "Instellingen",
   btn_close: "Sluiten",
+  setting_preview_label: "Voorbeeld van het gekozen bestand: hier in de browser afspelen",
   setting_help_label: "Hulptips tonen: beweeg over een element voor een tip (of gebruik de knop ?).",
 
   // verdicts

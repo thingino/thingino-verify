@@ -44,6 +44,7 @@ I18N.add("ko", {
   settings_title: "설정",
   gear_title: "설정",
   btn_close: "닫기",
+  setting_preview_label: "선택한 파일 미리 보기: 브라우저에서 바로 재생합니다",
   setting_help_label: "도움말 힌트 표시: 아무 컨트롤에나 마우스를 올리면 힌트가 표시됩니다(또는 ? 버튼 사용).",
 
   // verdicts

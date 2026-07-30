@@ -44,6 +44,7 @@ I18N.add("de", {
   settings_title: "Einstellungen",
   gear_title: "Einstellungen",
   btn_close: "Schließen",
+  setting_preview_label: "Vorschau der ausgewählten Datei: hier im Browser abspielen",
   setting_help_label: "Hilfehinweise anzeigen: fahre über ein beliebiges Element für einen Tipp (oder nutze die Schaltfläche ?).",
 
   // verdicts

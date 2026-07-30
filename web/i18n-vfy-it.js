@@ -44,6 +44,7 @@ I18N.add("it", {
   settings_title: "Impostazioni",
   gear_title: "Impostazioni",
   btn_close: "Chiudi",
+  setting_preview_label: "Anteprima del file scelto: viene riprodotto qui nel browser",
   setting_help_label: "Mostra i suggerimenti di aiuto: passa il cursore su qualsiasi controllo per un consiglio (o usa il pulsante ?).",
 
   // verdicts

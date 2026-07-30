@@ -44,6 +44,7 @@ I18N.add("tr", {
   settings_title: "Ayarlar",
   gear_title: "Ayarlar",
   btn_close: "Kapat",
+  setting_preview_label: "Seçilen dosyayı önizle: burada, tarayıcıda oynatılır",
   setting_help_label: "Yardım ipuçlarını göster: ipucu için herhangi bir kontrolün üzerine gelin (veya ? düğmesini kullanın).",
 
   // verdicts

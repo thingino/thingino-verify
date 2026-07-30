@@ -45,6 +45,7 @@ I18N.add("en", {
   settings_title: "Settings",
   gear_title: "Settings",
   btn_close: "Close",
+  setting_preview_label: "Preview the picked file: play it here in the browser",
   setting_help_label: "Show help hints: hover any control for a tip (or use the ? button).",
 
   // verdicts

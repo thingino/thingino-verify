@@ -44,6 +44,7 @@ I18N.add("zh-CN", {
   settings_title: "设置",
   gear_title: "设置",
   btn_close: "关闭",
+  setting_preview_label: "预览所选文件：直接在浏览器中播放",
   setting_help_label: "显示帮助提示：将鼠标悬停在任意控件上即可查看提示（或使用 ? 按钮）。",
 
   // verdicts

@@ -73,16 +73,20 @@ parity suite before every deploy, so every deployed byte traces to
 public sources through a public build. `web/wasm/build-info.json`
 records the exact revisions and emcc version; the footer shows them.
 
-A picked file is also played back locally: the page builds a `blob:`
-URL so a recording plays (or a snapshot displays) in the browser
-without leaving it, and hides the player with a note when the browser
+A picked file can also be played back locally, off by default and
+enabled with a switch in settings: the page builds a `blob:` URL so a
+recording plays (or a snapshot displays) in the browser without leaving
+it, and hides the player with a note when the browser
 cannot decode the file. Tampering does not make a file unplayable —
 only payload bytes change, so the container stays valid and H.264
 renders the surrounding frames with artifacts — so a file that fails
 verification has its player withheld behind a warning, with an
 explicit "play anyway" override. That applies to a failed verdict
 only: an unsigned file is not altered, merely not from a raptor
-camera, and plays normally. Language and the help-hint toggle live behind
+camera, and plays normally. Switching the preview on after a file is
+already loaded plays it without re-picking, because the bytes are
+captured when the file is chosen -- a sample's `ArrayBuffer` is handed
+to the worker and neutered, so that is the only chance to copy it. Language and the help-hint toggle live behind
 the gear in a settings dialog, matching webflash and the image builder.
 
 The UI is translated into 15 languages, auto-detected from the browser

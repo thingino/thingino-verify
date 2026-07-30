@@ -44,6 +44,7 @@ I18N.add("fr", {
   settings_title: "Paramètres",
   gear_title: "Paramètres",
   btn_close: "Fermer",
+  setting_preview_label: "Aperçu du fichier choisi : lecture ici dans le navigateur",
   setting_help_label: "Affichez les astuces d'aide : survolez n'importe quel contrôle pour un conseil (ou utilisez le bouton ?).",
 
   // verdicts

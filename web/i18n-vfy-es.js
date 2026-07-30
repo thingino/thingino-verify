@@ -44,6 +44,7 @@ I18N.add("es", {
   settings_title: "Ajustes",
   gear_title: "Ajustes",
   btn_close: "Cerrar",
+  setting_preview_label: "Vista previa del archivo elegido: se reproduce aquí en el navegador",
   setting_help_label: "Muestra sugerencias de ayuda: pasa el cursor sobre cualquier control para ver un consejo (o usa el botón ?).",
 
   // verdicts

@@ -44,6 +44,7 @@ I18N.add("ja", {
   settings_title: "設定",
   gear_title: "設定",
   btn_close: "閉じる",
+  setting_preview_label: "選択したファイルをプレビュー：ブラウザ内でそのまま再生します",
   setting_help_label: "ヘルプヒントを表示：任意のコントロールにカーソルを合わせるとヒントが表示されます（または ? ボタンを使用）。",
 
   // verdicts
