@@ -7,7 +7,6 @@ I18N.add("ja", {
   badge_local: "100% ローカル",
   local_title: "ファイルはローカルで読み込まれ、検証されます。何もアップロードされません。",
   engine_title: "rverify のビルド",
-  help_title: "ヘルプの吹き出しを切り替え",
 
   // file picker
   drop_aria: "検証するファイルを選択",
@@ -44,8 +43,23 @@ I18N.add("ja", {
   settings_title: "設定",
   gear_title: "設定",
   btn_close: "閉じる",
+
+  // about dialog (the info button in the header)
+  about_title: "情報",
+  about_what: "このページは、録画がカメラの署名したものかどうかを確かめます。raptor のレコーダーが書き出した動画とスナップショットには Ed25519 のハッシュチェーンが付いており、各署名は直前の署名以降のすべてのバイトを覆います。そのため切り取り・つなぎ・再エンコードはいずれもその位置でチェーンを断ち切ります。",
+  about_local: "ファイルが端末の外に出ることはありません。カメラに載っているものと同じ rverify エンジンを WebAssembly にコンパイルしたもので、このブラウザ内で読み取り・検証します。アップロードもアカウント登録も不要です。",
+  about_project: "thingino は Ingenic 系チップの IP カメラ向けの自由でオープンソースなファームウェアで、有志のコミュニティが開発しています。",
+  about_hints: "各コントロールのホバーヒントは設定から有効にできます。",
+  about_links: "プロジェクトのリンク",
+  about_site: "thingino プロジェクトサイト",
+  about_wiki: "ドキュメントとカメラ wiki",
+  about_firmware: "thingino ファームウェアのソース",
+  about_telegram: "Telegram グループ",
+  about_discord: "Discord サーバー",
+  about_source: "この検証ツールのソース",
+  about_version: "検証ツールのバージョン",
   setting_preview_label: "選択したファイルをプレビュー：ブラウザ内でそのまま再生します",
-  setting_help_label: "ヘルプヒントを表示：任意のコントロールにカーソルを合わせるとヒントが表示されます（または ? ボタンを使用）。",
+  setting_help_label: "ヘルプヒントを表示：任意のコントロールにカーソルを合わせるとヒントが表示されます。",
 
   // verdicts
   v_verifying: "{name} を検証中 …",
@@ -67,7 +81,7 @@ I18N.add("ja", {
   v_keyfile_fail_d: "hex 64 文字、または 32 バイトの生の Ed25519 公開鍵ファイルが必要です。",
 
   // help balloons (data-help keys)
-  help_help: "ヘルプモードの切り替え: 任意のコントロールにカーソルを合わせると、その機能が表示されます。",
+  help_about: "この検証ツールについて、何を確かめ、プロジェクトはどこにあるか。",
   help_lang: "インターフェースの言語を切り替えます（ブラウザから自動検出）。",
   help_local: "ファイルの読み込みと検証はすべてブラウザ内で行われます。どこにも何もアップロードされません。",
   help_engine: "検証エンジン（rverify、WebAssembly にコンパイル済み）のビルド元となった raptor のコミット。",

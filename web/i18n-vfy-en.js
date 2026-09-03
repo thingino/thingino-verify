@@ -8,7 +8,6 @@ I18N.add("en", {
   badge_local: "100% local",
   local_title: "The file is read and verified locally; nothing is uploaded.",
   engine_title: "rverify build",
-  help_title: "Toggle help balloons",
 
   // file picker
   drop_aria: "Choose a file to verify",
@@ -45,8 +44,23 @@ I18N.add("en", {
   settings_title: "Settings",
   gear_title: "Settings",
   btn_close: "Close",
+
+  // about dialog (the info button in the header)
+  about_title: "About",
+  about_what: "This page checks whether a recording is the one the camera signed. Every video and snapshot written by raptor's recorder carries an Ed25519 hash chain: each signature covers all the bytes since the one before it, so any cut, splice or re-encode breaks the chain at exactly that point.",
+  about_local: "The file never leaves your device. It is read and checked here in the browser by the same rverify engine the camera ships, compiled to WebAssembly, so there is nothing to upload and no account to create.",
+  about_project: "thingino is free, open-source firmware for Ingenic-based IP cameras, built by a community of volunteers.",
+  about_hints: "Hover hints for every control can be switched on in Settings.",
+  about_links: "Project links",
+  about_site: "thingino project site",
+  about_wiki: "Documentation and camera wiki",
+  about_firmware: "thingino firmware source",
+  about_telegram: "Telegram group",
+  about_discord: "Discord server",
+  about_source: "This verifier's source",
+  about_version: "Verifier version",
   setting_preview_label: "Preview the picked file: play it here in the browser",
-  setting_help_label: "Show help hints: hover any control for a tip (or use the ? button).",
+  setting_help_label: "Show help hints: hover any control for a tip.",
 
   // verdicts
   v_verifying: "verifying {name} ...",
@@ -68,7 +82,7 @@ I18N.add("en", {
   v_keyfile_fail_d: "Expected 64 hex characters or a raw 32-byte Ed25519 public key.",
 
   // help balloons (data-help keys)
-  help_help: "Toggle help mode: hover any control to see what it does.",
+  help_about: "About this verifier, what it checks and where the project lives.",
   help_lang: "Switch the interface language (auto-detected from your browser).",
   help_local: "The file is read and verified entirely in your browser. Nothing is uploaded anywhere.",
   help_engine: "The raptor commit the verification engine (rverify, compiled to WebAssembly) was built from.",

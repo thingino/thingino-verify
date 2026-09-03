@@ -7,7 +7,6 @@ I18N.add("pl", {
   badge_local: "100% lokalnie",
   local_title: "Plik jest odczytywany i weryfikowany lokalnie; nic nie jest wysyłane.",
   engine_title: "wersja rverify",
-  help_title: "Przełącz dymki pomocy",
 
   // file picker
   drop_aria: "Wybierz plik do weryfikacji",
@@ -44,8 +43,23 @@ I18N.add("pl", {
   settings_title: "Ustawienia",
   gear_title: "Ustawienia",
   btn_close: "Zamknij",
+
+  // about dialog (the info button in the header)
+  about_title: "O programie",
+  about_what: "Ta strona sprawdza, czy nagranie jest tym, które podpisała kamera. Każdy film i każdy zrzut zapisany przez rejestrator raptora niesie łańcuch skrótów Ed25519: każdy podpis obejmuje wszystkie bajty od poprzedniego, więc każde cięcie, montaż czy ponowne kodowanie przerywa łańcuch dokładnie w tym miejscu.",
+  about_local: "Plik nigdy nie opuszcza twojego urządzenia. Jest odczytywany i sprawdzany tutaj, w przeglądarce, przez ten sam silnik rverify, który działa w kamerze, skompilowany do WebAssembly: nie ma czego wysyłać ani konta do zakładania.",
+  about_project: "thingino to wolne oprogramowanie o otwartym kodzie dla kamer IP opartych na układach Ingenic, tworzone przez społeczność wolontariuszy.",
+  about_hints: "Podpowiedzi po najechaniu na dowolny element można włączyć w Ustawieniach.",
+  about_links: "Linki projektu",
+  about_site: "Strona projektu thingino",
+  about_wiki: "Dokumentacja i wiki kamer",
+  about_firmware: "Źródła firmware'u thingino",
+  about_telegram: "Grupa na Telegramie",
+  about_discord: "Serwer Discord",
+  about_source: "Kod tego weryfikatora",
+  about_version: "Wersja weryfikatora",
   setting_preview_label: "Podgląd wybranego pliku: odtwarzanie tutaj, w przeglądarce",
-  setting_help_label: "Pokaż podpowiedzi: najedź na dowolny element, aby zobaczyć wskazówkę (lub użyj przycisku ?).",
+  setting_help_label: "Pokaż podpowiedzi: najedź na dowolny element, aby zobaczyć wskazówkę.",
 
   // verdicts
   v_verifying: "weryfikowanie {name} ...",
@@ -67,7 +81,7 @@ I18N.add("pl", {
   v_keyfile_fail_d: "Oczekiwano 64 znaków hex albo surowego 32-bajtowego klucza publicznego Ed25519.",
 
   // help balloons (data-help keys)
-  help_help: "Przełącz tryb pomocy: najedź na dowolny element, aby zobaczyć, co robi.",
+  help_about: "O tym weryfikatorze, co sprawdza i gdzie mieszka projekt.",
   help_lang: "Zmień język interfejsu (wykrywany automatycznie z przeglądarki).",
   help_local: "Plik jest odczytywany i weryfikowany w całości w twojej przeglądarce. Nic nie jest nigdzie wysyłane.",
   help_engine: "Commit raptor, z którego zbudowano silnik weryfikacji (rverify skompilowany do WebAssembly).",

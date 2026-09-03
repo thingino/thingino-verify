@@ -7,7 +7,6 @@ I18N.add("de", {
   badge_local: "100% lokal",
   local_title: "Die Datei wird lokal gelesen und geprüft; nichts wird hochgeladen.",
   engine_title: "rverify-Build",
-  help_title: "Hilfeblasen ein- oder ausschalten",
 
   // file picker
   drop_aria: "Datei zum Verifizieren auswählen",
@@ -44,8 +43,23 @@ I18N.add("de", {
   settings_title: "Einstellungen",
   gear_title: "Einstellungen",
   btn_close: "Schließen",
+
+  // about dialog (the info button in the header)
+  about_title: "Über",
+  about_what: "Diese Seite prüft, ob eine Aufnahme die ist, die die Kamera signiert hat. Jedes Video und jeder Schnappschuss aus raptors Rekorder trägt eine Ed25519-Hashkette: Jede Signatur deckt alle Bytes seit der vorherigen ab, sodass jeder Schnitt, jede Montage und jede Neukodierung die Kette genau an dieser Stelle bricht.",
+  about_local: "Die Datei verlässt Ihr Gerät nie. Sie wird hier im Browser von derselben rverify-Engine gelesen und geprüft, die auch auf der Kamera läuft, übersetzt nach WebAssembly: nichts hochzuladen, kein Konto anzulegen.",
+  about_project: "thingino ist freie, quelloffene Firmware für Ingenic-basierte IP-Kameras, gemacht von einer Gemeinschaft Freiwilliger.",
+  about_hints: "Hinweise beim Überfahren jedes Elements lassen sich in den Einstellungen einschalten.",
+  about_links: "Projekt-Links",
+  about_site: "thingino-Projektseite",
+  about_wiki: "Dokumentation und Kamera-Wiki",
+  about_firmware: "Quellcode der thingino-Firmware",
+  about_telegram: "Telegram-Gruppe",
+  about_discord: "Discord-Server",
+  about_source: "Quellcode dieses Prüfers",
+  about_version: "Prüfer-Version",
   setting_preview_label: "Vorschau der ausgewählten Datei: hier im Browser abspielen",
-  setting_help_label: "Hilfehinweise anzeigen: fahre über ein beliebiges Element für einen Tipp (oder nutze die Schaltfläche ?).",
+  setting_help_label: "Hilfehinweise anzeigen: fahre über ein beliebiges Element für einen Tipp.",
 
   // verdicts
   v_verifying: "verifiziere {name} ...",
@@ -67,7 +81,7 @@ I18N.add("de", {
   v_keyfile_fail_d: "Erwartet wurden 64 Hex-Zeichen oder ein roher öffentlicher 32-Byte-Ed25519-Schlüssel.",
 
   // help balloons (data-help keys)
-  help_help: "Hilfemodus umschalten: fahre über ein beliebiges Element, um zu sehen, was es tut.",
+  help_about: "Über diesen Prüfer, was er prüft und wo das Projekt zu Hause ist.",
   help_lang: "Wechsle die Sprache der Oberfläche (automatisch aus deinem Browser erkannt).",
   help_local: "Die Datei wird vollständig in deinem Browser gelesen und geprüft. Nichts wird irgendwohin hochgeladen.",
   help_engine: "Der raptor-Commit, aus dem die Verifizierungs-Engine (rverify, zu WebAssembly kompiliert) gebaut wurde.",

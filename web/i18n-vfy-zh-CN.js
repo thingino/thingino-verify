@@ -7,7 +7,6 @@ I18N.add("zh-CN", {
   badge_local: "100% 本地",
   local_title: "文件在本地读取并验证，不会上传任何内容。",
   engine_title: "rverify 构建版本",
-  help_title: "开启或关闭帮助气泡",
 
   // file picker
   drop_aria: "选择要验证的文件",
@@ -44,8 +43,23 @@ I18N.add("zh-CN", {
   settings_title: "设置",
   gear_title: "设置",
   btn_close: "关闭",
+
+  // about dialog (the info button in the header)
+  about_title: "关于",
+  about_what: "本页检查一段录像是否就是摄像头签名的那一段。raptor 录制器写出的每段视频和每张快照都带有 Ed25519 哈希链：每个签名覆盖自上一个签名以来的全部字节，因此任何剪切、拼接或重新编码都会在该处断开链条。",
+  about_local: "文件始终不离开你的设备。它就在本浏览器中，由摄像头所用的同一个 rverify 引擎（编译为 WebAssembly）读取和校验，无需上传，也不必注册账号。",
+  about_project: "thingino 是面向基于 Ingenic 芯片的 IP 摄像头的自由开源固件，由志愿者社区共同维护。",
+  about_hints: "可在设置中开启所有控件的悬停提示。",
+  about_links: "项目链接",
+  about_site: "thingino 项目网站",
+  about_wiki: "文档与摄像头 wiki",
+  about_firmware: "thingino 固件源码",
+  about_telegram: "Telegram 群组",
+  about_discord: "Discord 服务器",
+  about_source: "本校验器的源代码",
+  about_version: "校验器版本",
   setting_preview_label: "预览所选文件：直接在浏览器中播放",
-  setting_help_label: "显示帮助提示：将鼠标悬停在任意控件上即可查看提示（或使用 ? 按钮）。",
+  setting_help_label: "显示帮助提示：将鼠标悬停在任意控件上即可查看提示。",
 
   // verdicts
   v_verifying: "正在验证 {name} …",
@@ -67,7 +81,7 @@ I18N.add("zh-CN", {
   v_keyfile_fail_d: "需要 64 个 hex 字符，或一个 32 字节的原始 Ed25519 公钥文件。",
 
   // help balloons (data-help keys)
-  help_help: "切换帮助模式：将鼠标悬停在任意控件上即可查看其作用。",
+  help_about: "关于本校验器、它检查什么，以及项目在哪里。",
   help_lang: "切换界面语言（自动从你的浏览器检测）。",
   help_local: "文件完全在你的浏览器中读取和验证，不会上传到任何地方。",
   help_engine: "验证引擎（rverify，编译为 WebAssembly）所基于的 raptor 提交。",

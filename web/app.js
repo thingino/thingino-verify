@@ -386,7 +386,6 @@ function showHelpBalloon(el) {
 
 function applyHelpMode() {
 	document.body.classList.toggle("help-on", helpMode);
-	$("btn-help").classList.toggle("help-active", helpMode);
 	// Suppress native title tooltips while help mode is on so they don't
 	// double up with the balloons; restore them when it's off.
 	for (const el of document.querySelectorAll("[data-help]")) {
@@ -401,12 +400,6 @@ function applyHelpMode() {
 	if (!helpMode) hideHelpBalloon();
 }
 
-$("btn-help").addEventListener("click", () => {
-	helpMode = !helpMode;
-	localStorage.setItem("verify.help", helpMode ? "1" : "0");
-	$("setting-help").checked = helpMode;
-	applyHelpMode();
-});
 applyHelpMode();
 
 /* Track the topmost helpable element under the cursor; elementFromPoint
@@ -436,16 +429,26 @@ function closeSettings() {
 	$("settings-overlay").classList.add("d-none");
 }
 
+const showAbout = (on) => $("about-overlay").classList.toggle("d-none", !on);
+$("btn-about").addEventListener("click", () => showAbout(true));
+$("about-close").addEventListener("click", () => showAbout(false));
+$("about-close-x").addEventListener("click", () => showAbout(false));
+$("about-overlay").addEventListener("click", (e) => {
+	if (e.target === $("about-overlay")) showAbout(false);
+});
+
 $("settings-btn").addEventListener("click", openSettings);
 $("settings-close").addEventListener("click", closeSettings);
 $("settings-overlay").addEventListener("click", (e) => {
 	if (e.target === $("settings-overlay")) closeSettings();
 });
 document.addEventListener("keydown", (e) => {
-	if (e.key === "Escape") closeSettings();
+	if (e.key !== "Escape") return;
+	closeSettings();
+	showAbout(false);
 });
 // Both settings apply live, so there is nothing to save: the language
-// switches inside I18N.selector, and the toggle mirrors the ? button.
+// switches inside I18N.selector, and the hint toggle applies on change.
 $("setting-preview").addEventListener("change", (e) => {
 	previewEnabled = e.target.checked;
 	localStorage.setItem("verify.preview", previewEnabled ? "1" : "0");
@@ -479,6 +482,7 @@ fetch("wasm/build-info.json")
 		// Footer = this site's own revision (webflash convention);
 		// the header badge carries the engine provenance.
 		$("version-num").textContent = "v0.1.0-" + (i.site || "").slice(0, 7);
+		$("about-version").textContent = "v0.1.0-" + (i.site || "").slice(0, 7);
 		const b = $("engine-badge");
 		b.textContent = "raptor " + (i.raptor || "").slice(0, 7);
 		b.title = "engine: raptor " + i.raptor + ", raptor-common " + (i.raptor_common || "?") + ", emcc " + (i.emcc || "?");

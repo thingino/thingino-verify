@@ -7,7 +7,6 @@ I18N.add("nl", {
   badge_local: "100% lokaal",
   local_title: "Het bestand wordt lokaal gelezen en gecontroleerd; er wordt niets geüpload.",
   engine_title: "rverify-build",
-  help_title: "Hulpballonnen aan- of uitzetten",
 
   // file picker
   drop_aria: "Kies een bestand om te verifiëren",
@@ -44,8 +43,23 @@ I18N.add("nl", {
   settings_title: "Instellingen",
   gear_title: "Instellingen",
   btn_close: "Sluiten",
+
+  // about dialog (the info button in the header)
+  about_title: "Over",
+  about_what: "Deze pagina controleert of een opname is wat de camera heeft ondertekend. Elke video en elke momentopname van raptors recorder draagt een Ed25519-hashketen: elke handtekening dekt alle bytes sinds de vorige, dus elke knip, montage of hercodering breekt de keten precies daar.",
+  about_local: "Het bestand verlaat je apparaat nooit. Het wordt hier in de browser gelezen en gecontroleerd door dezelfde rverify-engine als op de camera, gecompileerd naar WebAssembly: niets te uploaden en geen account nodig.",
+  about_project: "thingino is vrije, opensource firmware voor IP-camera's op Ingenic-chips, gemaakt door een gemeenschap van vrijwilligers.",
+  about_hints: "Hints bij het zweven over elk element zet je aan in Instellingen.",
+  about_links: "Projectlinks",
+  about_site: "thingino-projectsite",
+  about_wiki: "Documentatie en camerawiki",
+  about_firmware: "Broncode van de thingino-firmware",
+  about_telegram: "Telegram-groep",
+  about_discord: "Discord-server",
+  about_source: "Broncode van deze verifier",
+  about_version: "Verifierversie",
   setting_preview_label: "Voorbeeld van het gekozen bestand: hier in de browser afspelen",
-  setting_help_label: "Hulptips tonen: beweeg over een element voor een tip (of gebruik de knop ?).",
+  setting_help_label: "Hulptips tonen: beweeg over een element voor een tip.",
 
   // verdicts
   v_verifying: "{name} wordt geverifieerd ...",
@@ -67,7 +81,7 @@ I18N.add("nl", {
   v_keyfile_fail_d: "Verwacht: 64 hex-tekens of een ruwe publieke Ed25519-sleutel van 32 bytes.",
 
   // help balloons (data-help keys)
-  help_help: "Zet de hulpmodus aan: beweeg over een besturingselement om te zien wat het doet.",
+  help_about: "Over deze verifier, wat hij controleert en waar het project woont.",
   help_lang: "Wijzig de taal van de interface (automatisch gedetecteerd uit je browser).",
   help_local: "Het bestand wordt volledig in je browser gelezen en gecontroleerd. Er wordt niets geüpload.",
   help_engine: "De raptor-commit waaruit de verificatie-engine (rverify, gecompileerd naar WebAssembly) is gebouwd.",

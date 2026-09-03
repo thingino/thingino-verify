@@ -7,7 +7,6 @@ I18N.add("tr", {
   badge_local: "%100 yerel",
   local_title: "Dosya yerel olarak okunur ve doğrulanır; hiçbir şey yüklenmez.",
   engine_title: "rverify sürümü",
-  help_title: "Yardım balonlarını aç/kapat",
 
   // file picker
   drop_aria: "Doğrulanacak bir dosya seçin",
@@ -44,8 +43,23 @@ I18N.add("tr", {
   settings_title: "Ayarlar",
   gear_title: "Ayarlar",
   btn_close: "Kapat",
+
+  // about dialog (the info button in the header)
+  about_title: "Hakkında",
+  about_what: "Bu sayfa, bir kaydın kameranın imzaladığı kayıt olup olmadığını denetler. raptor'un kaydedicisiyle yazılan her video ve her anlık görüntü bir Ed25519 özet zinciri taşır: her imza bir öncekinden bu yana geçen tüm baytları kapsar, bu yüzden her kesme, ekleme veya yeniden kodlama zinciri tam o noktada kırar.",
+  about_local: "Dosya cihazınızdan hiç çıkmaz. Burada, tarayıcıda, kameranın kullandığı aynı rverify motoruyla, WebAssembly'ye derlenmiş hâliyle okunup denetlenir: yüklenecek bir şey ve açılacak bir hesap yoktur.",
+  about_project: "thingino, Ingenic tabanlı IP kameralar için özgür ve açık kaynaklı bir yazılımdır, gönüllülerden oluşan bir topluluk tarafından geliştirilir.",
+  about_hints: "Her kontrolün üzerine gelince çıkan ipuçları Ayarlar'dan açılabilir.",
+  about_links: "Proje bağlantıları",
+  about_site: "thingino proje sitesi",
+  about_wiki: "Belgeler ve kamera wiki'si",
+  about_firmware: "thingino yazılım kaynak kodu",
+  about_telegram: "Telegram grubu",
+  about_discord: "Discord sunucusu",
+  about_source: "Bu doğrulayıcının kaynağı",
+  about_version: "Doğrulayıcı sürümü",
   setting_preview_label: "Seçilen dosyayı önizle: burada, tarayıcıda oynatılır",
-  setting_help_label: "Yardım ipuçlarını göster: ipucu için herhangi bir kontrolün üzerine gelin (veya ? düğmesini kullanın).",
+  setting_help_label: "Yardım ipuçlarını göster: ipucu için herhangi bir kontrolün üzerine gelin.",
 
   // verdicts
   v_verifying: "{name} doğrulanıyor ...",
@@ -67,7 +81,7 @@ I18N.add("tr", {
   v_keyfile_fail_d: "64 hex karakter veya 32 baytlık ham bir Ed25519 açık anahtarı bekleniyordu.",
 
   // help balloons (data-help keys)
-  help_help: "Yardım modunu aç/kapat: ne yaptığını görmek için herhangi bir kontrolün üzerine gelin.",
+  help_about: "Bu doğrulayıcı hakkında: neyi denetler ve proje nerede yaşar.",
   help_lang: "Arayüz dilini değiştirir (tarayıcınızdan otomatik algılanır).",
   help_local: "Dosya tamamen tarayıcınızda okunur ve doğrulanır. Hiçbir yere hiçbir şey yüklenmez.",
   help_engine: "Doğrulama motorunun (WebAssembly'ye derlenmiş rverify) derlendiği raptor commit'i.",

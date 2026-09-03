@@ -7,7 +7,6 @@ I18N.add("ko", {
   badge_local: "100% 로컬",
   local_title: "파일은 로컬에서 읽고 검증되며, 아무것도 업로드되지 않습니다.",
   engine_title: "rverify 빌드",
-  help_title: "도움말 풍선 켜기/끄기",
 
   // file picker
   drop_aria: "검증할 파일 선택",
@@ -44,8 +43,23 @@ I18N.add("ko", {
   settings_title: "설정",
   gear_title: "설정",
   btn_close: "닫기",
+
+  // about dialog (the info button in the header)
+  about_title: "정보",
+  about_what: "이 페이지는 녹화물이 카메라가 서명한 그것인지 확인합니다. raptor 레코더가 기록한 모든 영상과 스냅샷에는 Ed25519 해시 체인이 들어 있습니다. 각 서명은 직전 서명 이후의 모든 바이트를 덮으므로, 잘라내기나 이어붙이기, 재인코딩은 바로 그 지점에서 체인을 끊습니다.",
+  about_local: "파일은 기기 밖으로 나가지 않습니다. 카메라에 들어 있는 것과 같은 rverify 엔진을 WebAssembly로 컴파일해, 이 브라우저 안에서 읽고 검사합니다. 업로드할 것도, 만들 계정도 없습니다.",
+  about_project: "thingino는 Ingenic 기반 IP 카메라를 위한 자유 오픈소스 펌웨어로, 자원봉사자 커뮤니티가 만듭니다.",
+  about_hints: "모든 컨트롤의 마우스 오버 힌트는 설정에서 켤 수 있습니다.",
+  about_links: "프로젝트 링크",
+  about_site: "thingino 프로젝트 사이트",
+  about_wiki: "문서 및 카메라 위키",
+  about_firmware: "thingino 펌웨어 소스",
+  about_telegram: "텔레그램 그룹",
+  about_discord: "디스코드 서버",
+  about_source: "이 검사기의 소스",
+  about_version: "검사기 버전",
   setting_preview_label: "선택한 파일 미리 보기: 브라우저에서 바로 재생합니다",
-  setting_help_label: "도움말 힌트 표시: 아무 컨트롤에나 마우스를 올리면 힌트가 표시됩니다(또는 ? 버튼 사용).",
+  setting_help_label: "도움말 힌트 표시: 아무 컨트롤에나 마우스를 올리면 힌트가 표시됩니다.",
 
   // verdicts
   v_verifying: "{name} 검증 중 …",
@@ -67,7 +81,7 @@ I18N.add("ko", {
   v_keyfile_fail_d: "hex 64자 또는 32바이트 원시 Ed25519 공개 키 파일이 필요합니다.",
 
   // help balloons (data-help keys)
-  help_help: "도움말 모드 전환: 아무 컨트롤에나 마우스를 올리면 어떤 기능인지 표시됩니다.",
+  help_about: "이 검사기가 무엇이고 무엇을 확인하며 프로젝트가 어디에 있는지.",
   help_lang: "인터페이스 언어를 전환합니다(브라우저에서 자동 감지).",
   help_local: "파일은 전부 브라우저 안에서 읽고 검증됩니다. 어디에도 아무것도 업로드되지 않습니다.",
   help_engine: "검증 엔진(rverify, WebAssembly로 컴파일됨)이 빌드된 raptor 커밋입니다.",

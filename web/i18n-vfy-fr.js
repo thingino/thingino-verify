@@ -7,7 +7,6 @@ I18N.add("fr", {
   badge_local: "100% local",
   local_title: "Le fichier est lu et vérifié localement ; rien n'est envoyé.",
   engine_title: "compilation de rverify",
-  help_title: "Afficher ou masquer les bulles d'aide",
 
   // file picker
   drop_aria: "Choisir un fichier à vérifier",
@@ -44,8 +43,23 @@ I18N.add("fr", {
   settings_title: "Paramètres",
   gear_title: "Paramètres",
   btn_close: "Fermer",
+
+  // about dialog (the info button in the header)
+  about_title: "À propos",
+  about_what: "Cette page vérifie si un enregistrement est bien celui que la caméra a signé. Chaque vidéo et chaque instantané écrits par l'enregistreur de raptor portent une chaîne de hachages Ed25519 : chaque signature couvre tous les octets depuis la précédente, si bien qu'une coupe, un montage ou un réencodage rompt la chaîne exactement à cet endroit.",
+  about_local: "Le fichier ne quitte jamais votre appareil. Il est lu et vérifié ici, dans le navigateur, par le moteur rverify de la caméra elle-même, compilé en WebAssembly : rien à envoyer, aucun compte à créer.",
+  about_project: "thingino est un firmware libre et open source pour les caméras IP à base d'Ingenic, réalisé par une communauté de bénévoles.",
+  about_hints: "Les astuces au survol de chaque contrôle s'activent dans les Paramètres.",
+  about_links: "Liens du projet",
+  about_site: "Site du projet thingino",
+  about_wiki: "Documentation et wiki des caméras",
+  about_firmware: "Sources du firmware thingino",
+  about_telegram: "Groupe Telegram",
+  about_discord: "Serveur Discord",
+  about_source: "Sources de ce vérificateur",
+  about_version: "Version du vérificateur",
   setting_preview_label: "Aperçu du fichier choisi : lecture ici dans le navigateur",
-  setting_help_label: "Affichez les astuces d'aide : survolez n'importe quel contrôle pour un conseil (ou utilisez le bouton ?).",
+  setting_help_label: "Affichez les astuces d'aide : survolez n'importe quel contrôle pour un conseil.",
 
   // verdicts
   v_verifying: "vérification de {name} ...",
@@ -67,7 +81,7 @@ I18N.add("fr", {
   v_keyfile_fail_d: "64 caractères hex ou une clé publique Ed25519 brute de 32 octets étaient attendus.",
 
   // help balloons (data-help keys)
-  help_help: "Active le mode aide : survolez n'importe quel contrôle pour voir ce qu'il fait.",
+  help_about: "À propos de ce vérificateur, ce qu'il contrôle et où vit le projet.",
   help_lang: "Changez la langue de l'interface (détectée automatiquement depuis votre navigateur).",
   help_local: "Le fichier est lu et vérifié entièrement dans votre navigateur. Rien n'est envoyé où que ce soit.",
   help_engine: "Le commit raptor à partir duquel le moteur de vérification (rverify, compilé en WebAssembly) a été construit.",
