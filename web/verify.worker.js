@@ -6,7 +6,7 @@
 importScripts("wasm/rverify.js");
 
 self.onmessage = async (e) => {
-	const { buf, name, key, timecodes } = e.data;
+	const { buf, name, key, timecodes, gps } = e.data;
 	const lines = [];
 	let code = null;
 
@@ -33,6 +33,7 @@ self.onmessage = async (e) => {
 	const argv = [];
 	if (key) argv.push("-k", key);
 	if (timecodes) argv.push("-t");
+	if (gps) argv.push("-g"); /* GPS track table; a no-op for JPEGs */
 	argv.push(path);
 
 	try {

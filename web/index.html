@@ -51,6 +51,9 @@
     #log .warn  { color:darkorange; }
     #log .error { color:#f85149; }
     #log .dim   { color:#484f58; }
+    #gps-svg { background:#0d1117; border:1px solid #30363d; border-radius:.25rem; }
+    .gps-dot { display:inline-block; width:.7rem; height:.7rem; border-radius:50%; margin-right:.3rem; vertical-align:-.05rem; }
+    .gps-ok { background:#3fb950; } .gps-bad { background:#f85149; } .gps-unsigned { background:#8b949e; }
 
     @media (max-width:576px){
       body{ padding:.5rem !important; }
@@ -133,6 +136,9 @@
         <button class="btn btn-outline-success btn-sm" id="btn-sample-good" data-help="help_sample_good" data-i18n-title="sample_good_title" title="A test clip signed with the bundled test key">
           <i class="bi bi-patch-check me-1"></i> <span data-i18n="sample_good">signed</span>
         </button>
+        <button class="btn btn-outline-info btn-sm" id="btn-sample-gps" data-help="help_sample_gps" data-i18n-title="sample_gps_title" title="A test clip with GPS records, signed with the bundled test key">
+          <i class="bi bi-geo-alt me-1"></i> <span data-i18n="sample_gps">GPS</span>
+        </button>
         <button class="btn btn-outline-danger btn-sm" id="btn-sample-bad" data-help="help_sample_bad" data-i18n-title="sample_bad_title" title="The same clip with one byte of video flipped">
           <i class="bi bi-bandaid me-1"></i> <span data-i18n="sample_bad">tampered</span>
         </button>
@@ -142,6 +148,25 @@
   </div>
 
   <!-- Preview (local playback of the picked file) -->
+  <!-- GPS track: drawn from rverify's -g table, no map tiles fetched -->
+  <div class="card mb-3 d-none" id="gps-card">
+    <div class="card-header d-flex align-items-center gap-2">
+      <h2 class="card-title mb-0 fs-6"><i class="bi bi-geo-alt me-1"></i> <span data-i18n="gps_title">GPS track</span></h2>
+      <span class="small muted ms-auto" data-i18n="gps_note">from the GPS records in the file</span>
+    </div>
+    <div class="card-body p-2" data-help="help_gps">
+      <div id="gps-summary" class="small mb-2"></div>
+      <svg id="gps-svg" class="w-100" viewBox="0 0 640 240" role="img" aria-hidden="true"></svg>
+      <div id="gps-nofix" class="small muted d-none" data-i18n="gps_nofix">These records carry no position fix.</div>
+      <div class="d-flex flex-wrap gap-3 small mt-2 align-items-center">
+        <span><span class="gps-dot gps-ok"></span><span data-i18n="gps_ok">intact</span></span>
+        <span><span class="gps-dot gps-bad"></span><span data-i18n="gps_bad">failed verification</span></span>
+        <span><span class="gps-dot gps-unsigned"></span><span data-i18n="gps_unsigned">unsigned</span></span>
+        <a id="gps-osm" class="ms-auto link-secondary d-none" target="_blank" rel="noopener noreferrer" data-i18n="gps_osm">Last position in OpenStreetMap</a>
+      </div>
+    </div>
+  </div>
+
   <div class="card mb-3 d-none" id="preview-card">
     <div class="card-header d-flex align-items-center gap-2">
       <h2 class="card-title mb-0 fs-6"><i class="bi bi-play-btn me-1"></i> <span data-i18n="preview_title">Preview</span></h2>

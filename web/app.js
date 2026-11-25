@@ -195,7 +195,7 @@ async function verify() {
 	setLog([{ t: "dim", s: I18N.t("v_verifying", { name: currentFile.name }) }]);
 
 	const buf = currentFile.buffer ?? (await currentFile.arrayBuffer());
-	worker.postMessage({ buf, name: currentFile.name, key: k, timecodes: true }, [buf]);
+	worker.postMessage({ buf, name: currentFile.name, key: k, timecodes: true, gps: true }, [buf]);
 	if (currentFile.buffer) currentFile = null; // sample buffers are one-shot
 }
 
@@ -230,6 +230,7 @@ function setLog(lines) {
 
 function clearVerdict() {
 	verdictEl.innerHTML = "";
+	$("gps-card").classList.add("d-none");
 }
 
 /* A tampered file still decodes: only payload bytes changed, so the
@@ -275,8 +276,92 @@ function esc(s) {
 	return s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 }
 
+/* ---------- GPS track ---------- */
+
+/* rverify -g prints "gps track: N records", a header, then one row per
+ * record: time (20 columns), then latitude/longitude/km/h/course/sats, or
+ * "no fix", then accel, then the verdict of the span holding the record.
+ * Parsing the engine's own table keeps the verdicts the engine's. */
+function parseGps(lines) {
+	const at = lines.findIndex((l) => /^gps track: \d+ records?$/.test(l));
+	if (at < 0) return null;
+	const rows = [];
+	for (let j = at + 2; j < lines.length; j++) {
+		const s = lines[j];
+		const m = s.match(/ (unsigned|signed|hash ok|FAILED)(  IMPACT)?$/);
+		if (!s.startsWith("  ") || !m) break;
+		const when = s.slice(2, 22).trim();
+		const rest = s.slice(22, m.index).trim().split(/\s+/);
+		const r = { when: when === "-" ? null : when, span: m[1], impact: !!m[2], fix: rest[0] !== "no" };
+		if (r.fix) {
+			r.lat = parseFloat(rest[0]);
+			r.lon = parseFloat(rest[1]);
+			r.kmh = parseFloat(rest[2]);
+			if (!isFinite(r.lat) || !isFinite(r.lon)) r.fix = false;
+		}
+		rows.push(r);
+	}
+	return rows;
+}
+
+const GPS_COLOR = { unsigned: "#8b949e", signed: "#3fb950", "hash ok": "#3fb950", FAILED: "#f85149" };
+
+function renderGps(lines) {
+	const rows = parseGps(lines);
+	if (!rows || !rows.length) return;
+	const fixes = rows.filter((r) => r.fix);
+	const impacts = rows.filter((r) => r.impact).length;
+	let summary = I18N.t("gps_summary", { n: rows.length, fix: fixes.length });
+	if (fixes.length) summary += " · " + I18N.t("gps_speed", { v: Math.max(...fixes.map((r) => r.kmh)).toFixed(1) });
+	if (impacts) summary += " · " + I18N.t("gps_impact", { n: impacts });
+	$("gps-summary").textContent = summary;
+
+	const svg = $("gps-svg");
+	svg.replaceChildren();
+	$("gps-nofix").classList.toggle("d-none", fixes.length > 0);
+	svg.classList.toggle("d-none", fixes.length === 0);
+	const osm = $("gps-osm");
+	osm.classList.toggle("d-none", fixes.length === 0);
+	if (fixes.length) {
+		/* equirectangular around the track's mean latitude: true to shape
+		 * at dashcam scale, no tiles to fetch */
+		const k = Math.cos((fixes.reduce((a, r) => a + r.lat, 0) / fixes.length) * Math.PI / 180);
+		const xs = fixes.map((r) => r.lon * k), ys = fixes.map((r) => -r.lat);
+		const W = 640, H = 240, pad = 16;
+		const x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(...ys), y1 = Math.max(...ys);
+		/* scale by the extents the track has: a straight east-west road has
+		 * no height, a parked car no extent at all */
+		const sx = x1 - x0, sy = y1 - y0;
+		let sc = Math.min(sx > 0 ? (W - 2 * pad) / sx : Infinity, sy > 0 ? (H - 2 * pad) / sy : Infinity);
+		if (!isFinite(sc)) sc = 1;
+		const ox = (W - (x1 - x0) * sc) / 2, oy = (H - (y1 - y0) * sc) / 2;
+		const pt = (i) => [ox + (xs[i] - x0) * sc, oy + (ys[i] - y0) * sc];
+		const NS = "http://www.w3.org/2000/svg";
+		const el = (tag, attrs) => {
+			const e = document.createElementNS(NS, tag);
+			for (const a in attrs) e.setAttribute(a, attrs[a]);
+			svg.appendChild(e);
+			return e;
+		};
+		for (let i = 1; i < fixes.length; i++) {
+			const [ax, ay] = pt(i - 1), [bx, by] = pt(i);
+			el("line", { x1: ax, y1: ay, x2: bx, y2: by, stroke: GPS_COLOR[fixes[i].span], "stroke-width": 3, "stroke-linecap": "round" });
+		}
+		fixes.forEach((r, i) => {
+			const [cx, cy] = pt(i);
+			el("circle", { cx, cy, r: i === 0 || i === fixes.length - 1 ? 5 : 2.5, fill: GPS_COLOR[r.span],
+				stroke: i === fixes.length - 1 ? "darkorange" : "none", "stroke-width": 2 });
+		});
+		const last = fixes[fixes.length - 1];
+		const la = last.lat.toFixed(6), lo = last.lon.toFixed(6);
+		osm.href = "https://www.openstreetmap.org/?mlat=" + la + "&mlon=" + lo + "#map=17/" + la + "/" + lo;
+	}
+	$("gps-card").classList.remove("d-none");
+}
+
 function render(code, lines) {
 	setLog(lines);
+	renderGps(lines.filter((l) => l.t !== "err").map((l) => l.s));
 	const text = lines.map((l) => l.s).join("\n");
 	const fp = (text.match(/key fingerprint: ([0-9a-f]+)/) || [])[1];
 	const fpNote = fp ? I18N.t("v_fp") + " <code>" + esc(fp) + "</code>" : "";
@@ -322,6 +407,7 @@ async function loadSample(path, name) {
 
 $("btn-sample-good").addEventListener("click", () => loadSample("samples/signed.mp4", "sample-signed.mp4"));
 $("btn-sample-bad").addEventListener("click", () => loadSample("samples/tampered.mp4", "sample-tampered.mp4"));
+$("btn-sample-gps").addEventListener("click", () => loadSample("samples/signed-gps.mp4", "sample-signed-gps.mp4"));
 
 /* ---------- key file ---------- */
 

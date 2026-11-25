@@ -222,6 +222,29 @@ t.wait("document.getElementById('verdict').textContent.trim().length > 0")
 check(t.js("document.getElementById('preview-card').classList.contains('d-none')"),
       "still no player after a reload with the setting off")
 
+print("=== 6c. GPS sample: track drawn from the engine's -g table ===")
+t.js("document.getElementById('btn-sample-gps').click()")
+t.wait("!document.getElementById('gps-card').classList.contains('d-none')")
+v3 = t.js("document.getElementById('verdict').textContent")
+check("verified" in (v3 or "").lower(), "GPS sample verifies", v3)
+summ = t.js("document.getElementById('gps-summary').textContent") or ""
+check("8 records" in summ and "8 with a position fix" in summ, "GPS summary counts records and fixes", summ)
+check("top speed 31.5 km/h" in summ, "GPS summary top speed", summ)
+check(t.js("document.querySelectorAll('#gps-svg line').length") == 7, "7 track segments",
+      t.js("document.querySelectorAll('#gps-svg line').length"))
+check(t.js("document.querySelectorAll('#gps-svg circle').length") == 8, "8 track points")
+span = t.js("(() => { const c = document.querySelectorAll('#gps-svg circle'); return Math.abs(c[c.length-1].getAttribute('cx') - c[0].getAttribute('cx')); })()")
+check((span or 0) > 400, "track spans the view, not a dot", span)
+check(t.js("[...document.querySelectorAll('#gps-svg line')].every(l => l.getAttribute('stroke') === '#3fb950')"),
+      "every segment green (verified spans)")
+osm = t.js("document.getElementById('gps-osm').href") or ""
+check("mlat=51.477897" in osm and "mlon=-0.005000" in osm, "OpenStreetMap link points at the last fix", osm)
+check(t.js("document.getElementById('gps-nofix').classList.contains('d-none')"), "no 'no fix' note with fixes")
+t.shot("render-gps.png")
+t.js("document.getElementById('btn-sample-good').click()")
+t.wait("/verified/i.test(document.getElementById('verdict').textContent) && document.getElementById('gps-card').classList.contains('d-none')")
+check(t.js("document.getElementById('gps-card').classList.contains('d-none')"), "GPS card hidden for a file without GPS")
+
 print("=== 7. no console errors / CSP violations ===")
 errs = t.js("(window.__errs||[]).join(' | ')")
 t.close()
