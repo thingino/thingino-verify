@@ -34,6 +34,12 @@ cc -O2 -o sign-fixture sign-fixture.c \
 
 PUB=$(./sign-fixture base.mp4 signed.mp4)
 echo "$PUB" > fixture.pub
+./sign-fixture -g 8 base.mp4 signed-gps.mp4 >/dev/null
+./sign-fixture -g 8 -B base.mp4 gps-badindex.mp4 >/dev/null
+cp signed-gps.mp4 gps-tampered.mp4
+# Flip a byte inside the last GPS record (latitude), in the final span.
+GSZ=$(stat -c%s gps-tampered.mp4)
+printf '\x00' | dd of=gps-tampered.mp4 bs=1 seek=$((GSZ - 164 - 256 + 0x2c)) conv=notrunc status=none
 cp signed.mp4 tampered.mp4
 # Flip one byte deep in the mdat payload.
 SZ=$(stat -c%s tampered.mp4)
@@ -65,5 +71,10 @@ check "signed, keyless -> CONSISTENT"   0 signed.mp4
 check "signed + key -> VERIFIED"        0 signed.mp4 -k "$PUB"
 check "tampered + key -> TAMPERED"      1 tampered.mp4 -k "$PUB"
 check "signed + WRONG key -> TAMPERED"  1 signed.mp4 -k "$(printf '0%.0s' {1..64})"
+check "gps + key -> VERIFIED"           0 signed-gps.mp4 -k "$PUB"
+check "gps + key, -g track"             0 signed-gps.mp4 -k "$PUB" -g
+check "gps keyless, -g -> CONSISTENT"   0 signed-gps.mp4 -g
+check "gps record tampered -> TAMPERED" 1 gps-tampered.mp4 -k "$PUB" -g
+check "gps index off its records -> FAIL" 1 gps-badindex.mp4 -k "$PUB" -g
 
 [ $fail -eq 0 ] && echo "parity: all cases identical" || exit 1

@@ -6,3 +6,6 @@ test/base.mp4
 test/signed.mp4
 test/tampered.mp4
 test/fixture.pub
+test/signed-gps.mp4
+test/gps-badindex.mp4
+test/gps-tampered.mp4

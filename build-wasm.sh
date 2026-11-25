@@ -17,8 +17,8 @@ set -e
 cd "$(dirname "$0")"
 
 # Engine provenance pins. Bump deliberately, in their own commit.
-RAPTOR_REV=15a401cf1d58ba4d476df5acb6252203a6213832
-COMMON_REV=75d83e8bd2c6d2a2c8ef2b8a7040d74b84236d04
+RAPTOR_REV=06ddbc28d775beb64d5a38993290a46d44280571
+COMMON_REV=ab1f9fd40dc917388449c201a0945c051587f4fb
 EMSDK_VER=5.0.4
 
 DEPS=$PWD/build-deps
