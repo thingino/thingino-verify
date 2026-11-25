@@ -240,7 +240,13 @@ check(t.js("[...document.querySelectorAll('#gps-svg line')].every(l => l.getAttr
 osm = t.js("document.getElementById('gps-osm').href") or ""
 check("mlat=51.477897" in osm and "mlon=-0.005000" in osm, "OpenStreetMap link points at the last fix", osm)
 check(t.js("document.getElementById('gps-nofix').classList.contains('d-none')"), "no 'no fix' note with fixes")
+wrapped = t.js("(() => { const l = [...document.querySelectorAll('#log > div')]; const h = l.length ? Math.min(...l.map(d => d.getBoundingClientRect().height)) : 0; return l.filter(d => d.getBoundingClientRect().height > h * 1.5).map(d => d.textContent.slice(0, 40)); })()")
+check(wrapped == [], "report lines do not wrap (GPS table stays one row per record)", wrapped)
+check(t.js("(() => { const g = document.getElementById('log'); return g.scrollWidth > g.clientWidth; })()"),
+      "the wide GPS table scrolls sideways instead")
 t.shot("render-gps.png")
+t.js("document.getElementById('log').scrollIntoView({block: 'end'})")
+t.shot("render-gps-log.png")
 t.js("document.getElementById('btn-sample-good').click()")
 t.wait("/verified/i.test(document.getElementById('verdict').textContent) && document.getElementById('gps-card').classList.contains('d-none')")
 check(t.js("document.getElementById('gps-card').classList.contains('d-none')"), "GPS card hidden for a file without GPS")

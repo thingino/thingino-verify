@@ -41,16 +41,18 @@
     #verdict .verdict-title { font-weight:600; }
 
     #log {
-      height: 300px; overflow-y:auto;
+      height: 300px; overflow:auto;
       font-family:'Courier New', monospace; font-size:.78rem; line-height:1.5;
-      white-space:pre-wrap; word-break:break-all;
+      /* rverify's tables (boxes, the GPS track) stay one line each: the
+       * pane scrolls sideways instead of wrapping them */
+      white-space:pre;
       background:#010409; border:1px solid #30363d; border-radius:6px; padding:.6rem;
     }
     #log .info  { color:#c9d1d9; }
     #log .ok    { color:#3fb950; }
     #log .warn  { color:darkorange; }
     #log .error { color:#f85149; }
-    #log .dim   { color:#484f58; }
+    #log .dim   { color:#484f58; white-space:pre-wrap; } /* the intro prose wraps */
     #gps-svg { background:#0d1117; border:1px solid #30363d; border-radius:.25rem; }
     .gps-dot { display:inline-block; width:.7rem; height:.7rem; border-radius:50%; margin-right:.3rem; vertical-align:-.05rem; }
     .gps-ok { background:#3fb950; } .gps-bad { background:#f85149; } .gps-unsigned { background:#8b949e; }
